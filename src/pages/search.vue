@@ -17,7 +17,9 @@
     <div class="keyBox">
       <h3>关键字</h3>
       <ul class="clearfix">
-        <li>东莞市</li>
+        <li>
+            <router-link to="result">东莞市</router-link>
+        </li>
       </ul>
     </div>
   </div>
@@ -60,13 +62,16 @@
   }
   ul{
     li{
-      font-size: @f26;
-      color: #666;
       line-height: .66667rem;
       background: #f0f0f0;
       float: left;
       padding: 0 .2rem;
       border-radius: .1066667rem;
+        a{
+            text-decoration: none;
+            font-size: @f26;
+            color: #666;
+        }
     }
   }
 }

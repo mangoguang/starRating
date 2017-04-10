@@ -1,16 +1,15 @@
 <template>
     <div class="login">
         <div class="imgBox">
-            <img src="../assets/logo.png">
-            <p>经销商评分系统</p>
+            <img src="../assets/1-name.png">
         </div>
         <div class="form">
             <div class="user">
-                <img src="../assets/logo.png">
+                <img src="../assets/1-user.png">
                 <input type="text" placeholder="请输入账户">
             </div>
             <div class="password">
-                <img src="../assets/logo.png">
+                <img src="../assets/1-lock.png">
                 <input type="password" placeholder="请输入密码">
             </div>
         </div>
@@ -20,61 +19,63 @@
 
     </div>
 </template>
+
 <style lang="less" scoped>
+    @import "../less/variable";
     .imgBox{
         width: 100%;
         height: auto;
-        padding-top: 20%;
+        padding-top: 2.13rem;
         text-align: center;
         img{
-            width: 30%;
-            height: auto;
-        }
-        p{
-            font-weight: bold;
-            font-size: 36px;
-            color: #222;
+            width: auto;
+            height: 2.13rem;
         }
     }
     .form{
-        width: 60%;
-        height: 40%;
+        width: 90%;
         margin: 0 auto;
+        padding-top: 1.60rem;
         div{
-            height: 98px;
+            height: 1.33rem;
             overflow: hidden;
             img{
                 float: left;
-                width: 48px;
-                padding: 25px;
+                width: 0.45rem;
+                height: auto;
+                padding: 0.44rem 0;
             }
             input{
                 float: left;
-                width: 70%;
-                height: 60px;
-                margin: 19px 0;
+                width: 90%;
+                height: 1.33rem;
                 text-align: center;
-                font-size: 36px;
-                color: #666;
+                font-size: 0.45rem;
+                color: @subfc;
                 background: none;
                 border: none;
                 outline: none;
-                border-bottom: 1px solid #111;
             }
+        }
+        .user{
+            border-bottom: 1px solid @subfc;
         }
     }
     .submit{
-        height: 78px;
-        width: 80%;
-        margin: 40px auto;
+        height: 1.07rem;
+        width: 90%;
+        margin: 1.06rem auto;
         text-align: center;
-        line-height: 78px;
-        background: #41b883;
-        border-radius: 10px;
+        line-height: 1.07rem;
+        background: @fc;
+        border-radius: 0.10rem;
         a{
+            display: block;
+            width: 100%;
+            height: 100%;
             text-decoration: none;
-            font-size: 36px;
-            color: #fff;
+            font-size: 0.453rem;
+            color: @subfc;
         }
     }
 
