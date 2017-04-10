@@ -32,5 +32,9 @@ export default new Router({
     path: '/rating',
     name: 'rating',
     component: require('../pages/rating')
+  }, {
+      path: '/check',
+      name: 'check',
+      component: require('../pages/check.vue')
   }]
 })

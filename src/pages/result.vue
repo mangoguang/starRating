@@ -1,8 +1,12 @@
 <template>
   <div class="result" v-bind:style="{'min-height': height+'px'}">
     <div class="header">
-      <button class="back" v-on:click="back"></button>
-      <h1>查询结果</h1>
+      <head-left>
+          <img src="../assets/2-back.png" @click="back">
+      </head-left>
+      <head-name>
+        <p>查询结果</p>
+      </head-name>
     </div>
 
     <div class="resultBox">
@@ -65,10 +69,11 @@
 </style>
 <script>
 // import headerComponent from '../components/header-component'
-
+    import HeadLeft from '@/components/HeadLeft.vue'
+    import HeadName from '@/components/HeadName.vue'
   export default{
     name: 'search',
-    // components: {headerComponent},
+    components: { HeadLeft, HeadName },
     data () {
       return {
         height: window.innerHeight,
@@ -77,9 +82,8 @@
       }
     },
     methods:{
-      back:function(){
+      back() {
         this.$router.go(-1);
-        return false;
       },
       toRatingStart:function(index,storeResults){
         this.$router.push({ path: '/startRating/'+this.storeResults[index]});

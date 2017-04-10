@@ -1,9 +1,15 @@
 <template>
   <div class="search" v-bind:style="{'min-height': height+'px'}">
     <div class="header">
-      <button class="back" v-on:click="back"></button>
-      <h1>经销商星级评分</h1>
-      <router-link class="" to="/history"></router-link>
+        <head-left>
+            <img src="../assets/2-back.png" @click="back">
+        </head-left>
+        <head-name>
+            <p>经销商星级评分</p>
+        </head-name>
+        <head-right>
+            <img src="../assets/2-history.png" @click="history">
+        </head-right>
     </div>
 
     <div class="picBox">
@@ -26,7 +32,9 @@
 </template>
 <style lang="less" scoped>
 @import "../less/variable.less";
-
+.header{
+    position: relative;
+}
 .search{
   background: @bgc;
 }
@@ -78,20 +86,24 @@
 </style>
 <script>
 // import headerComponent from '../components/header-component'
-
+    import HeadLeft from '@/components/HeadLeft.vue'
+    import HeadName from '@/components/HeadName.vue'
+    import HeadRight from '@/components/HeadRight.vue'
   export default{
     name: 'search',
-    // components: {headerComponent},
+    components: { HeadLeft, HeadName, HeadRight },
     data () {
       return {
         height: window.innerHeight
       }
     },
     methods:{
-      back:function(){
-        this.$router.go(-1);
-        return false;
-      }
+        back() {
+            this.$router.back();
+        },
+        history() {
+            this.$router.push({ path: '/history '});
+        }
     }
   }
 </script>

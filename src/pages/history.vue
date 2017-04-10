@@ -1,8 +1,16 @@
 <template>
   <div class="search" v-bind:style="{'min-height': height+'px'}">
+
     <div class="header">
-      <button class="back" v-on:click="back"></button>
-      <h1>我的记录</h1>
+        <head-left>
+            <img src="../assets/2-back.png" @click="back">
+        </head-left>
+        <head-name>
+            <p>我的记录</p>
+        </head-name>
+
+      <!--<button class="back" v-on:click="back"></button>
+      <h1>我的记录</h1>-->
     </div>
 
     <!-- 未完成评星 -->
@@ -127,7 +135,8 @@
 </style>
 <script>
 // import headerComponent from '../components/header-component'
-
+    import HeadLeft from '@/components/HeadLeft.vue'
+    import HeadName from '@/components/HeadName.vue'
   export default{
     name: 'history',
     // components: {headerComponent},
@@ -139,11 +148,17 @@
         starSum: [5,5,4,4]
       }
     },
-    methods:{
-      back:function(){
-        this.$router.go(-1);
-        return false;
-      }
+    components: { HeadLeft, HeadName },
+    methods: {
+        back() {
+            this.$router.back();
+        }
     }
+    //methods:{
+      //back:function(){
+        //this.$router.go(-1);
+       // return false;
+     // }
+    //}
   }
 </script>
