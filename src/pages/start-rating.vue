@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="ratingStart">
     <div class="header">
       <button class="back" v-on:click="back"></button>
@@ -24,7 +24,7 @@
 <style lang="less" scoped>
 @import "../less/variable.less";
 .storeMsgBox{
-  background: $bgc;
+  background: @bgc;
   img{
     height: 1.33333rem;
     margin-top: 1.7rem;
