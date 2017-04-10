@@ -2,7 +2,7 @@
   <div class="rating" v-bind:style="{'min-height': height+'px'}">
     <div class="header">
       <button class="back" v-on:click="back"></button>
-      <h1>评星进行中</h1>
+      <h1>评星进行中123</h1>
     </div>
 
 <!--     <form id="form"  enctype="multipart/form-data">  
