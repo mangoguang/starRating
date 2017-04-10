@@ -1,12 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Login from '@/pages/login.vue'
-// import Index from '../pages/index'
-// import startRating from '../pages/start-rating'
-// import search from '../pages/search'
-// import history from '../pages/history'
-// import result from '../pages/result'
-// import rating from '../pages/rating'
 
 Vue.use(Router);
 
