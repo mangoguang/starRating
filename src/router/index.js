@@ -20,10 +20,6 @@ export default new Router({
     name: 'login',
     component: require('../pages/login')
   }, {
-    path: '/index',
-    name: 'index',
-    component: require('../pages/index')
-  }, {
     path: '/startRating/:name',
     name: 'startRating',
     component: require('../pages/start-rating')
