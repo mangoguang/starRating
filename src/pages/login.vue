@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="submit">
-            <router-link to="./index">登 录</router-link>
+            <router-link to="search">登 录</router-link>
         </div>
 
     </div>
