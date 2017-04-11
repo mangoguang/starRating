@@ -9,7 +9,7 @@
         right: 0;
         top: 0;
         z-index: 10;
-        width: 1.2rem;
+        width: 1.3rem;
         height: 1.333rem;
         line-height: 1.333rem;
         text-align: center;
