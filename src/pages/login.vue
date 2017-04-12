@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <div class="imgBox">
+        <div class="imgBox" v-on:click="toRating">
             <img src="../assets/1-name.png">
         </div>
         <div class="form">
@@ -82,6 +82,10 @@
 </style>
 <script>
     export default{
-
+        methods:{
+            toRating:function(){
+                this.$router.push({ path: '/rating' });
+            }
+        }
     }
 </script>

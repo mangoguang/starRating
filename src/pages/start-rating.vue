@@ -149,6 +149,28 @@ import HeadName from '@/components/HeadName.vue'
         this.star = index+1;
       },
       startRating:function(){
+<<<<<<< HEAD
+        alert('staring');
+        $.post("http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do",{username:'11610129',password:'123456'},function(result){
+          console.log(123);
+          alert(JSON.stryingify(result));
+        });
+        // this.$router.push({ path: '/rating' });
+        // http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do?username=11610129&password=123456
+        // this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do', {
+        // // this.$http.jsonp('http://10.12.0.101/deruccimid/scanapp/finishedhouse', {
+        //   jsonp: 'jsoncallback',
+        //   params: {
+        //     username: '11610129',
+        //     password: '123456'
+        //   }
+        // })
+        // .then(function(data) {
+        //   console.log(data);
+        //   alert(JSON.stringify(data));
+        // })
+        return false;
+=======
         this.$router.push({ path: '/check'})
         // this.$router.push({ path: '/rating' });
         // http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do?username=11610129&password=123456
@@ -164,6 +186,7 @@ import HeadName from '@/components/HeadName.vue'
         //}).catch(function(data){
         //    console.log(data);
         //})
+>>>>>>> d60acf85a45542a058e842d1b35000f797f490ec
       }
     }
   }

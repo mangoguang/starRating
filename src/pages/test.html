@@ -20,8 +20,10 @@
 <script type="text/javascript">  
     //选择图片，马上预览  
     function xmTanUploadImg(obj) {  
+        console.log(obj);
   
-        var fl=obj.files.length;  
+        var fl=obj.files.length; 
+        console.log(fl); 
         for(var i=0;i<fl;i++){  
             var file=obj.files[i];  
             var reader = new FileReader();  

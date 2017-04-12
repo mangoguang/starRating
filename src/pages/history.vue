@@ -30,12 +30,12 @@
       <ul>
         <li class="clearfix" v-for="(finishStore,index) in finishStores">
           <div>
-            <h4>{{finishStore}}</h4>
-            <p>所属：特一二级城市</p>
-            <p>日期：2017年4月6日</p>
+            <h4>{{finishStore.storeName}}</h4>
+            <p>所属：{{finishStore.visitStar}}</p>
+            <p>日期：{{finishStore.visitDate}}</p>
           </div>
           <div>
-            <h5>98<span>分</span></h5>
+            <h5>{{finishStore.visitResult}}<span>分</span></h5>
             <span v-bind:style="{background: 'url(../static/images/star'+starSum[index]+'.png) no-repeat'}"></span>
           </div>
         </li>
@@ -144,15 +144,45 @@
       return {
         height: window.innerHeight,
         unFinishStores: ['东莞市厚街镇3D专卖店东莞市厚街镇3D专卖店东莞市厚街镇3D专卖店','东莞市厚街镇v6专卖店'],
-        finishStores: ['东莞市厚街镇3D专卖店东莞市厚街镇3D专卖店东莞市厚街镇3D专卖店','东莞市厚街镇v6专卖店','东莞市厚街镇3D专卖店','东莞市厚街镇v6专卖店'],
+        finishStores: [],
         starSum: [5,5,4,4]
       }
     },
+<<<<<<< HEAD
+    methods:{
+      back:function(){
+        this.$router.go(-1);
+        return false;
+      },
+      getHistory:function(){
+        // this.$router.push({ path: '/rating' });
+        // http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do?username=11610129&password=123456
+        this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm2/getResultInfo.do', {
+        // this.$http.jsonp('http://10.12.0.101/deruccimid/scanapp/finishedhouse', {
+          jsonp: 'jsoncallback',
+          params: {
+            pageSize: 10,
+            employeeNum: '11610129',
+            currentPage: 1
+          }
+        })
+        .then(function(data) {
+          var str = data.bodyText;
+          var obj = eval('(' + str + ')');
+          obj = obj[0].result;
+          this.finishStores = obj.listOfdrDealerVisitResult2;
+        })
+      }
+    },
+    mounted:function(){
+      this.getHistory();
+=======
     components: { HeadLeft, HeadName },
     methods: {
         back() {
             this.$router.back();
         }
+>>>>>>> d60acf85a45542a058e842d1b35000f797f490ec
     }
     //methods:{
       //back:function(){
