@@ -137,7 +137,7 @@
     data () {
       return {
         height: window.innerHeight,
-        keyWord: '东莞',
+        keyWord: '',
         resultList: [],
         starSum: [5,5,0,0]
       }
