@@ -30,6 +30,40 @@
                         <c-main1>
                             <p>{{ title.standardW }}</p>
                         </c-main1>
+                        <c-main2>
+                            <div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div>
+                            <div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div><div class="img1">
+                                <span></span>
+                                <img src="../assets/logo.png">
+                            </div>
+                        </c-main2>
                     </div>
 
                 </div>
@@ -73,11 +107,10 @@
             border-radius: 0.1rem;
         }
     }
-
     .swiper-container{
         padding-top: 1.33rem;
         width: 100%;
-        height: 600px;
+        height: auto;
         .swiper-scrollbar{
             padding-top: 1.33rem;
             height: 3px;
@@ -91,13 +124,14 @@
     import HeadName from '@/components/HeadName.vue'
     import HeadRight from '@/components/HeadRight.vue'
     import CMain1 from '@/components/CMain1.vue'
+    import CMain2 from '@/components/CMain2.vue'
 
     import CTitle from '@/components/CTitle.vue'
     import CHead from '@/components/CHead.vue'
 
     export default{
         name: 'check',
-        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1 },
+        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CMain2 },
         data() {
             return {
                 swiperSlides: [
