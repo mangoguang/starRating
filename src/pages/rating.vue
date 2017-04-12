@@ -30,7 +30,6 @@
 
 </style>
 <script>
-import $ from 'n-zepto'
   export default{
     name: 'rating',
     data () {

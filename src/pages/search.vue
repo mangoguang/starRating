@@ -169,26 +169,19 @@
       }
     },
     methods:{
-<<<<<<< HEAD
-      back:function(){
-        this.$router.go(-1);
-        return false;
-      },
       toRatingStart:function(index,resultList){
         console.log(resultList[index]);
         this.$router.push({ path: '/startRating/'+this.resultList[index].name});
       },
       clearKey:function(){
         this.keyWord = '';
-      }
-=======
+      },
         back() {
             this.$router.back();
         },
         history() {
             this.$router.push({ path: '/history '});
         }
->>>>>>> d60acf85a45542a058e842d1b35000f797f490ec
     }
   }
 </script>

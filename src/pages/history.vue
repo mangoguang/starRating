@@ -139,7 +139,7 @@
     import HeadName from '@/components/HeadName.vue'
   export default{
     name: 'history',
-    // components: {headerComponent},
+    components: { HeadLeft, HeadName },
     data () {
       return {
         height: window.innerHeight,
@@ -148,11 +148,9 @@
         starSum: [5,5,4,4]
       }
     },
-<<<<<<< HEAD
     methods:{
-      back:function(){
-        this.$router.go(-1);
-        return false;
+      back() {
+          this.$router.back();
       },
       getHistory:function(){
         // this.$router.push({ path: '/rating' });
@@ -176,13 +174,6 @@
     },
     mounted:function(){
       this.getHistory();
-=======
-    components: { HeadLeft, HeadName },
-    methods: {
-        back() {
-            this.$router.back();
-        }
->>>>>>> d60acf85a45542a058e842d1b35000f797f490ec
     }
     //methods:{
       //back:function(){
