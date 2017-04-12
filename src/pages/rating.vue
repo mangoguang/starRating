@@ -27,9 +27,9 @@
 <style lang="less" scoped>
 @import "../less/variable.less";
 
-
 </style>
 <script>
+import $ from 'n-zepto'
   export default{
     name: 'rating',
     data () {

@@ -33,8 +33,8 @@ export default new Router({
     name: 'rating',
     component: require('../pages/rating')
   }, {
-      path: '/check',
-      name: 'check',
-      component: require('../pages/check.vue')
+    path: '/check/:city/:star',
+    name: 'check',
+    component: require('../pages/check')
   }]
 })
