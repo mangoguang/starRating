@@ -27,8 +27,8 @@
         <li class="clearfix" @click="toRatingStart(index,resultList)" v-for="(result,index) in resultList">
           <p>{{result.name}}</p>
           <div>
-            <span v-bind:style="{background: 'url(../static/images/star'+starSum[index]+'.png) no-repeat'}"></span>
-            <p>上次评星 2017.01.01</p>
+            <span v-bind:style="{background: 'url(../static/images/star'+result.last_result+'.png) no-repeat'}"></span>
+            <p>上次评星 {{result.last_result_date}}</p>
           </div>
         </li>
       </ul>
@@ -89,8 +89,7 @@
     },
     methods:{
       toRatingStart:function(index,resultList){
-        console.log(resultList[index]);
-        this.$router.push({ path: '/startRating/'+this.resultList[index].name});
+        this.$router.push({ path: '/startRating/'+this.resultList[index].name+'/'+resultList[index].reverse1});
       },
       clearKey:function(){
         this.keyWord = '';

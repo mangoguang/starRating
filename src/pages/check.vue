@@ -31,38 +31,6 @@
                             <p>{{ title.standardW }}</p>
                         </c-main1>
                         <c-main2>
-                            <div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div>
-                            <div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div><div class="img1">
-                                <span></span>
-                                <img src="../assets/logo.png">
-                            </div>
                         </c-main2>
                     </div>
 

@@ -38,6 +38,7 @@ import HeadName from '@/components/HeadName.vue'
       return {
         height: window.innerHeight,
         name: this.$route.params.name,
+        city: this.$route.params.city,
         stars: ['一星','二星','三星','四星','五星'],
         star: 0
       }
@@ -47,24 +48,14 @@ import HeadName from '@/components/HeadName.vue'
         this.$router.back();
       },
       starSelect:function(index,stars){
-        this.star = index+1;
+        this.star = 'S'+(index+1);
       },
       startRating:function(){
-        this.$router.push({ path: '/check/C1/S1'})
-        // this.$router.push({ path: '/rating' });
-        // http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do?username=11610129&password=123456
-        // this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do', {
-        // // this.$http.jsonp('http://10.12.0.101/deruccimid/scanapp/finishedhouse', {
-        //   jsonp: 'jsoncallback',
-        //   params: {
-        //     username: '11610129',
-        //     password: '123456'
-        //   }
-        // })
-        // .then(function(data) {
-        //   console.log(data);
-        //   alert(JSON.stringify(data));
-        // })
+        if(this.star != 0){
+          this.$router.push({ path: '/check/'+this.city+'/'+this.star})
+        }else{
+          alert('请选择评星等级');
+        }
         return false;
       }
     }

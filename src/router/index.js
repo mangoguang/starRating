@@ -13,7 +13,7 @@ export default new Router({
     name: 'login',
     component: require('../pages/login')
   }, {
-    path: '/startRating/:name',
+    path: '/startRating/:name/:city',
     name: 'startRating',
     component: require('../pages/start-rating')
   }, {
