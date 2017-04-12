@@ -10,6 +10,10 @@
         <div class="inputArea">
             <label>备注：</label><input placeholder="备注...">
         </div>
+        <div class="scoreArea">
+            <label>得分：</label>
+            <input type="number">
+        </div>
 
     </div>
 </template>
@@ -83,6 +87,26 @@
                 height: 1.1rem;
                 font-size: 0.38rem;
                 color: #999;
+                border: none;
+                outline: none;
+            }
+        }
+        .scoreArea{
+            text-align: right;
+            padding: 0.373rem;
+            label{
+                font-size: 0.38rem;
+                color: #666;
+            }
+            input{
+                width: 1.8rem;
+                font-weight: bold;
+                font-size: 0.1rem;
+                color: #ff7559;
+                border: none;
+                outline: none;
+                border-bottom: 2px solid #ff7559;
+                text-align: center;
             }
         }
     }
