@@ -44,6 +44,67 @@
     </div> -->
   </div>
 </template>
+
+<script>
+// import headerComponent from '../components/header-component'
+    import HeadLeft from '@/components/HeadLeft.vue'
+    import HeadName from '@/components/HeadName.vue'
+    import HeadRight from '@/components/HeadRight.vue'
+  export default{
+    name: 'search',
+    components: { HeadLeft, HeadName, HeadRight },
+    data () {
+      return {
+        height: window.innerHeight,
+        keyWord: '',
+        resultList: [],
+        starSum: [5,5,0,0]
+      }
+    },
+    watch:{
+      'keyWord':function(val){
+        if(val == ''){
+          this.resultList = [];
+        }else{
+          this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm2/getStoreInfo.do', {
+            jsonp: 'jsoncallback',
+            params: {
+              keyWord: val,
+              pageSize: 50,
+              currentPage: 1,
+              searchType: ''
+            }
+          })
+          .then(function(data) {
+            if(data.status == 200){
+              data = eval('(' + data.bodyText + ')');
+              console.log(data);
+              this.resultList = data[0].storeList;
+            }else{
+              alert('网络故障，请求失败！')
+            }
+          })
+        }
+      }
+    },
+    methods:{
+      toRatingStart:function(index,resultList){
+        console.log(resultList[index]);
+        this.$router.push({ path: '/startRating/'+this.resultList[index].name});
+      },
+      clearKey:function(){
+        this.keyWord = '';
+      },
+        back() {
+            this.$router.back();
+        },
+        history() {
+            this.$router.push({ path: '/history '});
+        }
+    }
+  }
+</script>
+
 <style lang="less" scoped>
 @import "../less/variable.less";
 .header{
@@ -126,62 +187,4 @@
   }
 }
 </style>
-<script>
-// import headerComponent from '../components/header-component'
-    import HeadLeft from '@/components/HeadLeft.vue'
-    import HeadName from '@/components/HeadName.vue'
-    import HeadRight from '@/components/HeadRight.vue'
-  export default{
-    name: 'search',
-    components: { HeadLeft, HeadName, HeadRight },
-    data () {
-      return {
-        height: window.innerHeight,
-        keyWord: '',
-        resultList: [],
-        starSum: [5,5,0,0]
-      }
-    },
-    watch:{
-      'keyWord':function(val){
-        if(val == ''){
-          this.resultList = [];
-        }else{
-          this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm2/getStoreInfo.do', {
-            jsonp: 'jsoncallback',
-            params: {
-              keyWord: val,
-              pageSize: 10,
-              currentPage: 1,
-              searchType: 'city'
-            }
-          })
-          .then(function(data) {
-            if(data.status == 200){
-              data = eval('(' + data.bodyText + ')');
-              console.log(data);
-              this.resultList = data[0].storeList;
-            }else{
-              alert('网络故障，请求失败！')
-            }
-          })
-        }
-      }
-    },
-    methods:{
-      toRatingStart:function(index,resultList){
-        console.log(resultList[index]);
-        this.$router.push({ path: '/startRating/'+this.resultList[index].name});
-      },
-      clearKey:function(){
-        this.keyWord = '';
-      },
-        back() {
-            this.$router.back();
-        },
-        history() {
-            this.$router.push({ path: '/history '});
-        }
-    }
-  }
-</script>
+
