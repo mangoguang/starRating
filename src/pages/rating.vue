@@ -5,18 +5,22 @@
       <h1>评星进行中123</h1>
     </div>
 
-    <form id="form"  enctype="multipart/form-data">  
-      <input type="file" id="xdaTanFileImg"  multiple="multiple"  name="fileAttach"  v-on:change="xmTanUploadImg(this)"/>  
-      <input type="file" id=""  multiple="multiple1"  name="fileAttach1" v-on:change="imgInput"/>
+    <form id="imgForm" method="post" enctype="multipart/form-data">  
+      <input type="file" id="xdaTanFileImg"  multiple="multiple"  name="head_url"  v-on:change="xmTanUploadImg"/>  
+
       <div class="img-box" id="imgboxid">  
 
       </div>  
       
       <div id="xmTanDiv"></div><br/>  
       <div id="errordiv"   style="margin-top:15px;width:100%;text-align:center;">  
-        <input id="bt" type="button" onclick="test(this)" value="提交" />   
+<!--         <input id="bt" type="submit" value="提交" />   --> 
       </div>  
     </form>
+
+    <span style="display: block;margin-top: 80px;" v-on:click="upload">上传</span>
+
+    <img class="img" src="" alt="">
     
   </div>
 </template>
@@ -26,7 +30,7 @@
 
 </style>
 <script>
-
+import $ from 'n-zepto'
   export default{
     name: 'rating',
     data () {
@@ -39,46 +43,89 @@
         this.$router.go(-1);
         return false;
       },
-      imgInput:function(e){
-        let file = e.target.files[0];
-        var imgurl = e.target;
-        console.log(e);
-        console.log(imgurl);
+      upload:function(){
+        var formData = new FormData($( "#imgForm" )[0]);
+        formData.append("msg","123");
+        console.log(formData);
+        $.ajax({  
+          url: 'http://10.11.0.206:8866/CrmApp/crm2/updateImage.do' ,  
+          type: 'POST',  
+          data: formData,  
+          async: false,  
+          cache: false,  
+          contentType: false,  
+          processData: false,  
+          success: function (returndata) {  
+              console.log(returndata);  
+          },  
+          error: function (returndata) {  
+              console.log(returndata);  
+          }  
+        });
       },
+      // imgInput:function(e){
+      //   let file = e.target.files[0];
+      //   var imgurl = e.target;
+      //   console.log(e);
+      //   console.log(imgurl);
+      // },
       //选择图片，马上预览  
       xmTanUploadImg:function(obj) { 
-        console.log(obj); 
-        // var fl=obj.file.length;  
-        // for(var i=0;i<fl;i++){  
-        //   var file=obj.files[i];  
-        //   var reader = new FileReader();  
-        //   //读取文件过程方法  
-        //   reader.onloadstart = function (e) {  
-        //       console.log("开始读取....");  
-        //   }  
-        //   reader.onprogress = function (e) {  
-        //       console.log("正在读取中....");  
-        //   }  
-        //   reader.onabort = function (e) {  
-        //       console.log("中断读取....");  
-        //   }  
-        //   reader.onerror = function (e) {  
-        //       console.log("读取异常....");  
-        //   }  
-        //   reader.onload = function (e) {  
-        //     console.log("成功读取....");  
+        obj = obj.target;
+        console.log(obj);
+        var fl=obj.files.length; 
+        console.log(fl);
+        for(var i=0;i<fl;i++){  
+          var file=obj.files[i];  
+          console.log(file);
+          var reader = new FileReader();  
+          console.log(reader);
+          //读取文件过程方法  
+          reader.onloadstart = function (e) {  
+              console.log("开始读取....");  
+          }  
+          reader.onprogress = function (e) {  
+              console.log("正在读取中....");  
+          }  
+          reader.onabort = function (e) {  
+              console.log("中断读取....");  
+          }  
+          reader.onerror = function (e) {  
+              console.log("读取异常....");  
+          }  
+          reader.onload = function (e) {  
+            console.log("成功读取....");  
 
-        //     var imgstr='<img style="width:100px;height:100px;" src="'+e.target.result+'"/>';  
-        //     var oimgbox=document.getElementById("imgboxid");  
-        //     var ndiv=document.createElement("div");  
+            var imgstr='<img style="width:100px;height:100px;" src="'+e.target.result+'"/>';  
+            var oimgbox=document.getElementById("imgboxid");  
+            var ndiv=document.createElement("div");  
 
-        //     ndiv.innerHTML=imgstr;  
-        //     ndiv.className="img-div";  
-        //     oimgbox.appendChild(ndiv);                 
-        //   }  
-        //   reader.readAsDataURL(file);   
-        // }   
-      }
+            ndiv.innerHTML=imgstr;  
+            ndiv.className="img-div";  
+            oimgbox.appendChild(ndiv);                 
+          }  
+          reader.readAsDataURL(file);   
+        }   
+      }/*,
+      submit:function(){
+        $.post("http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do",{username:'11610129',password:'123456'},function(result){
+          console.log(123);
+          alert(JSON.stryingify(result));
+        });
+        var arr = [];
+        // console.log(123);
+        //   var path = $('.img-box .img-div img').value;
+        //   console.log(path);
+        $('.img-box .img-div img').each(function(){
+
+          var str = $(this).attr('src');
+          arr.push(str);
+          console.log(str.length);
+          console.log(typeof(str));
+        });
+        this.imgUrl = arr;
+        console.log(this.imgUrl);
+      }*/
     },
     mounted:function(){
       // xmTanUploadImg();

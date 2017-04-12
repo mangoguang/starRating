@@ -11,17 +11,31 @@
     </div>
 
     <div class="searchBox">
-      <input type="text" placeholder="请输入关键字（经销商名或地区）">
+      <input v-model="keyWord" type="text" placeholder="请输入关键字（经销商名或地区）">
+      <span v-on:click="clearKey"></span>
     </div>
 
-    <div class="keyBox">
+    <div class="resultBox">
+      <h3>店铺名</h3>
+      <ul>
+        <li class="clearfix" @click="toRatingStart(index,resultList)" v-for="(result,index) in resultList">
+          <p>{{result.name}}</p>
+          <div>
+            <span v-bind:style="{background: 'url(../static/images/star'+starSum[index]+'.png) no-repeat'}"></span>
+            <p>上次评星 2017.01.01</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+<!--     <div class="keyBox">
       <h3>关键字</h3>
       <ul class="clearfix">
         <li>
             <router-link to="result">东莞市</router-link>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 <style lang="less" scoped>
@@ -41,6 +55,7 @@
 .searchBox{
   height: 2.13333rem;
   background: @fc;
+  position: relative;
   input{
     display: block;
     width: 92%;
@@ -51,27 +66,54 @@
     padding-left: .5333rem;
     box-sizing: border-box;
   }
+  span{
+    display: block;
+    width: .346667rem;
+    height: .346667rem;
+    background: url(../assets/8-clos.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: .36rem;
+    right: .93333rem;
+  }
 }
-.keyBox{
+.resultBox{
   text-align: left;
-  padding-left: .4rem;
+  padding: 0 .4rem;
   h3{
-    font-size: @f18;
-    line-height: .77333rem;
+    font-size: @f26;
+    line-height: 2em;
+    padding-top: .106667rem;
+    border-bottom: 1px solid #e5e5e5;
     color: #999;
   }
   ul{
     li{
-      line-height: .66667rem;
-      background: #f0f0f0;
-      float: left;
-      padding: 0 .2rem;
-      border-radius: .1066667rem;
-        a{
-            text-decoration: none;
-            font-size: @f26;
-            color: #666;
+      border-bottom: 1px solid #e5e5e5;
+      padding: .2rem 0;
+      &>p{
+        width: 65%;
+        font-size: @f32;
+        line-height: 1.2em;
+        color: #666;
+        float: left;
+      }
+      div{
+        width: 35%;
+        text-align: right;
+        float: left;
+        span{
+          display: block;
+          width: 100%;
+          height: .346667rem;
+          background-size: auto .346667rem!important;
+          background-position: right 0 top 0!important;
         }
+        p{
+          font-size: @f22;
+          color: #ff7559;
+        }
+      }
     }
   }
 }
@@ -84,13 +126,49 @@
     // components: {headerComponent},
     data () {
       return {
-        height: window.innerHeight
+        height: window.innerHeight,
+        keyWord: '东莞',
+        resultList: [],
+        starSum: [5,5,0,0]
+      }
+    },
+    watch:{
+      'keyWord':function(val){
+        if(val == ''){
+          this.resultList = [];
+        }else{
+          this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm2/getStoreInfo.do', {
+            jsonp: 'jsoncallback',
+            params: {
+              keyWord: val,
+              pageSize: 10,
+              currentPage: 1,
+              searchType: 'city'
+            }
+          })
+          .then(function(data) {
+            if(data.status == 200){
+              data = eval('(' + data.bodyText + ')');
+              console.log(data);
+              this.resultList = data[0].storeList;
+            }else{
+              alert('网络故障，请求失败！')
+            }
+          })
+        }
       }
     },
     methods:{
       back:function(){
         this.$router.go(-1);
         return false;
+      },
+      toRatingStart:function(index,resultList){
+        console.log(resultList[index]);
+        this.$router.push({ path: '/startRating/'+this.resultList[index].name});
+      },
+      clearKey:function(){
+        this.keyWord = '';
       }
     }
   }
