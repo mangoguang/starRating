@@ -1,8 +1,12 @@
 <template>
   <div class="ratingStart">
     <div class="header">
-      <button class="back" v-on:click="back"></button>
-      <h1>开始评星</h1>
+        <head-left>
+            <img src="../assets/2-back.png" @click="back">
+        </head-left>
+        <head-name>
+            <p>开始评星</p>
+        </head-name>
     </div>
     
     <div class="storeMsgBox">
@@ -24,7 +28,7 @@
 <style lang="less" scoped>
 @import "../less/variable.less";
 .storeMsgBox{
-  background: $bgc;
+  background: @bgc;
   img{
     height: 1.33333rem;
     margin-top: 1.7rem;
@@ -124,8 +128,11 @@ li.startLi:hover{
 <script>
 import Vue from 'vue'
 import vueResource from 'vue-resource'
+import HeadLeft from '@/components/HeadLeft.vue'
+import HeadName from '@/components/HeadName.vue'
   export default{
     name: 'search',
+    components: { HeadLeft, HeadName },
     data () {
       return {
         height: window.innerHeight,
@@ -135,14 +142,14 @@ import vueResource from 'vue-resource'
       }
     },
     methods:{
-      back:function(){
-        this.$router.go(-1);
-        return false;
+      back() {
+        this.$router.back();
       },
       starSelect:function(index,stars){
         this.star = index+1;
       },
       startRating:function(){
+<<<<<<< HEAD
         alert('staring');
         $.post("http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do",{username:'11610129',password:'123456'},function(result){
           console.log(123);
@@ -163,6 +170,23 @@ import vueResource from 'vue-resource'
         //   alert(JSON.stringify(data));
         // })
         return false;
+=======
+        this.$router.push({ path: '/check'})
+        // this.$router.push({ path: '/rating' });
+        // http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do?username=11610129&password=123456
+        //this.$http.jsonp(
+        //    'http://10.11.0.206:8866/CrmApp/crm/getModuleInfo.do',{
+        //    jsonp: 'jsoncallback',
+        //    params: {
+        //        starlvlcode: 'S1',
+        //        citylvlcode: 'C1'
+        //    }
+        //}).then(function(data) {
+        //  console.log(data);
+        //}).catch(function(data){
+        //    console.log(data);
+        //})
+>>>>>>> d60acf85a45542a058e842d1b35000f797f490ec
       }
     }
   }

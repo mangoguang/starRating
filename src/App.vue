@@ -5,13 +5,16 @@
 </template>
 
 <script>
-import {flexible} from './common/properScreen.js'
-import {flexibleCss} from './common/properScreen_css.js'
 import Vue from 'vue'
 import vueResource from 'vue-resource'
 Vue.use(vueResource)
+
+import {flexible} from './common/properScreen.js'
+import {flexibleCss} from './common/properScreen_css.js'
 flexible();
 flexibleCss();
+
+import Swiper from '@/common/swiper.js'
 
 export default {
   name: 'app'
