@@ -24,9 +24,9 @@
                         <c-head>
                             <p><span>{{ title.titleHead }}</span> <i>({{ title.score }})</i></p>
                         </c-head>
-                        <p @click="dialogOpen(index,swiperSlides)">规则</p>
+                        <p @click.self="dialogOpen(index)">规则</p>
 
-                        <div class="GZContain">
+                        <div class="GZContain" v-show="swiperSlides[index].isGZ">
                             <span class="GZClose"></span>
                             <ul>
                                 <li v-for="(gzList,index) in swiperSlides[index].gzList">
@@ -64,6 +64,7 @@
 
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -104,7 +105,6 @@
             border-radius: 0.1rem;
         }
         .GZContain{
-            display: none;
             position: absolute;
             top: 1.8rem;
             left: 0;
@@ -221,6 +221,7 @@
                         titleHead: 'SI/VI应用规范及维护0',
                         score: '28分',
                         standardW: '装阿什利爱上大口径按时爱上看到，打算卡技术的。挨打了盛大阿萨德，打四大块的adas.asdad来看。爱上大家卡的啊。茶水的骄傲来思考爱上大口径按时的。爱上打开看教案上，按打款了。',
+                        isGZ: false,
                         gzList: [
                             '1.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
                             '2.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
@@ -232,6 +233,7 @@
                         titleHead: 'SI/VI应用规范及维护1',
                         score: '10分',
                         standardW: '装阿什利爱上大口径按时爱上看到，打算卡技术的。挨打了盛大阿萨德，打四大块的adas.asdad来看。爱上大家卡的啊。茶水的骄傲来思考爱上大口径按时的。爱上打开看教案上，按打款了。',
+                        isGZ: false,
                         gzList: [
                             '4.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
                             '5.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
@@ -243,13 +245,13 @@
                         titleHead: 'SI/VI应用规范及维护2',
                         score: '5分',
                         standardW: '装阿什利爱上大口径按时爱上看到，打算卡技术的。挨打了盛大阿萨德，打四大块的adas.asdad来看。爱上大家卡的啊。茶水的骄傲来思考爱上大口径按时的。爱上打开看教案上，按打款了。',
-                           gzList: [
+                        isGZ: false,
+                        gzList: [
                             '7.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
                             '8.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
                             '9.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。'
                         ]
-                    },
-
+                    }
                 ],
             }
         },
@@ -260,7 +262,6 @@
                     setWrapperSize :true,
                     scrollbar: '.swiper-scrollbar',
                     scrollbarHide: false
-
                     //pagination : '.swiper-pagination',
                     //paginationClickable :true,
             })
@@ -269,10 +270,8 @@
             back() {
                 this.$router.back();
             },
-            dialogOpen(index,swiperSlides) {
-                var el = $('.GZContain');
-                console.log(el[index]);
-                el[0].toggle();
+            dialogOpen(index) {
+                this.swiperSlides[index].isGZ = !this.swiperSlides[index].isGZ
             }
 
         }
