@@ -6,10 +6,10 @@
         
         <div class="imgBox clearfix">
             <ul class="img-box clearfix" id="imgboxid">  
-                <li v-for="src in imgSrc">
+                <li v-for="src in imgSrc" v-bind:style="{ heigth: 100 + 'px' }">
                     <img v-bind:src="src" alt="">
                 </li>
-                <li>
+                <li v-bind:style="{ height: (width*0.138) + 'px' }">
                     <label class="imgSelect" for="xdaTanFileImg"></label>
                 </li>
             </ul>  
@@ -71,7 +71,6 @@
                 li{
                     float: left;
                     width: 15%;
-                    height: 2rem;
                     margin-right: 2%; 
                     margin-top: .2rem;
                 }
@@ -79,6 +78,11 @@
                     margin-right: 0;
                 }
                 img{
+                    width: 100%;
+                    height: 100%;
+                }
+                label{
+                    display: block;
                     width: 100%;
                     height: 100%;
                 }
@@ -134,17 +138,33 @@
     }
 </style>
 <script>
+import {path_java} from '../common/variable.js'
     export default{
         name: 'CMain2',
         data(){
             return{
-                imgSrc: [],
+                width: window.innerWidth,
+                imgMsg: {
+                    imgSrc: [],
+                    imgWidth: []
+                }
                 textArea: '',
                 text: ''
             }
         },
         methods:{
             formdata:function(){
+                console.log(this.width);
+                // this.$http.jsonp(path_java+'getFlowNumber.do', {
+                //     jsonp: 'jsoncallback',
+                //     params: {
+                //     }
+                //   })
+                //   .then(function(data) {
+                //     console.log(data);
+                //   })
+
+
                 // if(this.textArea != ''){
                 //     var formData = new FormData($( "#imgForm" )[0]);
                 //     // formData.append("textArea",this.textArea);
@@ -178,6 +198,7 @@
                 var fl=obj.files.length; 
                 // console.log(fl);
                 var imgSrc = this.imgSrc;
+                var imgWidth = this.imgWidth;
                 for(var i=0;i<fl;i++){  
                   var file=obj.files[i];  
                   // console.log(file);
@@ -201,6 +222,7 @@
 
                     var src = e.target.result;
                     imgSrc.push(src);
+                    imgWidth.push(width*0.138);
 
                     // var imgstr='<img style="width:100px;height:100px;" src="'+e.target.result+'"/>';  
                     // var oimgbox=document.getElementById("imgboxid");  
@@ -213,6 +235,7 @@
                   reader.readAsDataURL(file);   
                 } 
                 this.imgSrc = imgSrc; 
+                this.imgWidth = imgWidth;
             }
         }
 
