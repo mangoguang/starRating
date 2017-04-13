@@ -23,6 +23,7 @@
 
     <div class="resultBox">
       <h3>店铺名</h3>
+      <p v-show='unMsg'>搜索不到相关内容！</p>
       <ul>
         <li class="clearfix" @click="toRatingStart(index,resultList)" v-for="(result,index) in resultList">
           <p>{{result.name}}</p>
@@ -50,6 +51,7 @@
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
     import HeadRight from '@/components/HeadRight.vue'
+    import {path_web} from '../common/variable.js'
   export default{
     name: 'search',
     components: { HeadLeft, HeadName, HeadRight },
@@ -58,32 +60,44 @@
         height: window.innerHeight,
         keyWord: '',
         resultList: [],
-        starSum: [5,5,0,0]
+        starSum: [5,5,0,0],
+        unMsg: false,
+        canGetData: true
       }
     },
     watch:{
       'keyWord':function(val){
         if(val == ''){
           this.resultList = [];
+          this.unMsg = false;
         }else{
-          this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm2/getStoreInfo.do', {
-            jsonp: 'jsoncallback',
-            params: {
-              keyWord: val,
-              pageSize: 50,
-              currentPage: 1,
-              searchType: ''
-            }
-          })
-          .then(function(data) {
-            if(data.status == 200){
-              data = eval('(' + data.bodyText + ')');
-              console.log(data);
-              this.resultList = data[0].storeList;
-            }else{
-              alert('网络故障，请求失败！')
-            }
-          })
+          if(this.canGetData){
+            this.canGetData = false;
+            this.$http.jsonp(path_web+'getStoreInfo.do', {
+              jsonp: 'jsoncallback',
+              params: {
+                keyWord: val,
+                pageSize: 50,
+                currentPage: 1,
+                searchType: ''
+              }
+            })
+            .then(function(data) {
+              if(data.status == 200){
+                this.canGetData = true;
+                data = eval('(' + data.bodyText + ')');
+                this.resultList = data[0].storeList;
+                //返回数组长度为0时，显示没数据提示文本。
+                if(data[0].storeList.length == 0){
+                  this.unMsg = true;
+                }else{
+                  this.unMsg = false;
+                }
+              }else{
+                alert('网络故障，请求失败！')
+              }
+            })
+          }
         }
       }
     },
