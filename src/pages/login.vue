@@ -1,16 +1,16 @@
 <template>
     <div class="login">
-        <div class="imgBox" v-on:click="toRating">
+        <div class="imgBox">
             <img src="../assets/1-name.png">
         </div>
         <div class="form">
             <div class="user">
                 <img src="../assets/1-user.png">
-                <input type="text" placeholder="请输入账户">
+                <input type="number" placeholder="请输入账户" v-model.lazy="userNum">
             </div>
             <div class="password">
                 <img src="../assets/1-lock.png">
-                <input type="password" placeholder="请输入密码">
+                <input type="password" placeholder="请输入密码" v-model.lazy="userPass">
             </div>
         </div>
         <div class="submit">
@@ -82,10 +82,33 @@
 </style>
 <script>
     export default{
-        methods:{
-            toRating:function(){
-                this.$router.push({ path: '/rating' });
+        data() {
+            return{
+                userNum: '',
+                userPass: ''
             }
+        },
+        watch: {
+            userNum: function(val, oldVal) {
+                var reg = /\d{8}/;
+                if(val == ''){
+                    alert('账户不能为空！');
+                    return false
+                }else if( reg.test(val) != true ){
+                    alert('请输入正确的账户！');
+                    return false
+                }
+            },
+            userPass: function(val, oldVal){
+                if(val == ''){
+                    alert('密码不能为空');
+                    return false
+                }
+            }
+
+        },
+        methods:{
+
         }
     }
 </script>

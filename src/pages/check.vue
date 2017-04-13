@@ -39,29 +39,7 @@
                         <c-main1>
                             <p>{{ title.standardW }}</p>
                         </c-main1>
-
-                        <div class="CMain2">
-                            <textarea placeholder="检查结果..."></textarea>
-                            <c-img>
-                                <div class="img">
-                                    <span></span>
-                                    <img src="../assets/logo.png">
-                                </div>
-                                <div class="img">
-                                    <span></span>
-                                    <img src="../assets/logo.png">
-                                </div>
-                            </c-img>
-
-                            <div class="inputArea">
-                                <label>备注：</label><input placeholder="备注...">
-                            </div>
-                            <div class="scoreArea">
-                                <label>得分：</label>
-                                <input type="number">
-                            </div>
-                        </div>
-
+                        <CMain2 @childFormData="formData"></CMain2>
                     </div>
                 </div>
 
@@ -211,9 +189,10 @@
 
     export default{
         name: 'check',
-        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg },
+        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg, CMain2 },
         data() {
             return {
+                textArea: '',
                 swiperSlides: [
                     {
                         index: 1,
@@ -272,6 +251,9 @@
             },
             dialogOpen(index) {
                 this.swiperSlides[index].isGZ = !this.swiperSlides[index].isGZ
+            },
+            formData:function(data){
+                console.log(data);
             }
 
         }

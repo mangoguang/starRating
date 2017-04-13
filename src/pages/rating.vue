@@ -14,7 +14,6 @@
       
       <div id="xmTanDiv"></div><br/>  
       <div id="errordiv"   style="margin-top:15px;width:100%;text-align:center;">  
-<!--         <input id="bt" type="submit" value="提交" />   --> 
       </div>  
     </form>
 
