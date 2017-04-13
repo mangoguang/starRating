@@ -1,19 +1,34 @@
 <template lang="html">
     <div class="CMain2">
-        <textarea placeholder="检查结果..."></textarea>
-        <div class="imgArea">
-            <slot></slot>
-            <div class="img1">
-                <img src="../assets/6-camera.png">
-            </div>
-        </div>
-        <div class="inputArea">
-            <label>备注：</label><input placeholder="备注...">
+    <form id="imgForm" method="post" enctype="multipart/form-data">  
+
+        <textarea v-model="textArea" placeholder="检查结果..."></textarea>
+        
+        <div class="imgBox clearfix">
+            <ul class="img-box clearfix" id="imgboxid">  
+                <li v-for="src in imgSrc">
+                    <img v-bind:src="src" alt="">
+                </li>
+                <li>
+                    <label class="imgSelect" for="xdaTanFileImg"></label>
+                </li>
+            </ul>  
+            <input type="file" id="xdaTanFileImg"  multiple="multiple"  name="head_url"  v-on:change="xmTanUploadImg"  style="display: none;"/> 
         </div>
 
+        <div class="inputArea">
+            <label>备注：</label><input v-model="text" typeof="text" placeholder="备注...">
+        </div> 
+        <div class="scoreArea">
+            <label>得分：</label>
+            <input type="number">
+        </div>
+        <span @click="formdata">提交</span>
+    </form>
     </div>
 </template>
 <style lang="less" scoped>
+@import "../less/variable.less";
     .CMain2{
         width: 92%;
         margin: 0 auto;
@@ -33,35 +48,66 @@
             color: #666;
             overflow: auto;
         }
-        .imgArea{
-            height: auto;
-            padding: 0.15rem 0.27rem 0.27rem 0.1rem;
+        span{
+            display: block;
+            width: 90%;
+            margin: 1rem auto 0 auto;
+            background: @fc;
+            color: @subfc;
+            font-size: @f34;
+            line-height: 1.06667rem;
+            border-radius: .1rem;
+        }
+        .imgBox{
             background: #fafafa;
-            overflow: hidden;
-            div{
-                position: relative;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border: 1px solid #e5e5e5;
+            border-top: none;
+            padding-bottom: .2rem;
+            .img-box{
                 float: left;
-                width: 0.8rem;
-                height: 0.8rem;
-                margin-left: 0.17rem;
-                margin-top: 0.27rem;
-                background: rgba(20,20,20,0.1);
-                border-radius: 8px;
+                width: 100%;
+                li{
+                    float: left;
+                    width: 15%;
+                    height: 2rem;
+                    margin-right: 2%; 
+                    margin-top: .2rem;
+                }
+                li:last-child{
+                    margin-right: 0;
+                }
                 img{
                     width: 100%;
-                    height: auto;
+                    height: 100%;
                 }
-                span{
-                    position: absolute;
-                    right: -0.3rem;
-                    top: -0.3rem;
-                    display: inline-block;
-                    width: 0.213rem;
-                    height: 0.213rem;
-                    padding: 0.20rem;
-                    border-radius: 50%;
-                    background: url("../assets/6-delete.png")no-repeat center;
-                }
+            }
+            .imgSelect{
+                float: left;
+                display: block;
+                width: 100%;
+                height: 100%;
+                background: url(../assets/6-camera.png) no-repeat;
+                background-size: 100% 100%;
+            }
+        }
+        .scoreArea{
+            text-align: right;
+            padding: 0.373rem;
+            label{
+                font-size: 0.38rem;
+                color: #666;
+            }
+            input{
+                width: 1.8rem;
+                font-weight: bold;
+                font-size: 0.51rem;
+                color: #ff7559;
+                border: none;
+                outline: none;
+                border-bottom: 2px solid #ff7559;
+                text-align: center;
             }
         }
         .inputArea{
@@ -89,6 +135,86 @@
 </style>
 <script>
     export default{
-        name: 'CMain2'
+        name: 'CMain2',
+        data(){
+            return{
+                imgSrc: [],
+                textArea: '',
+                text: ''
+            }
+        },
+        methods:{
+            formdata:function(){
+                // if(this.textArea != ''){
+                //     var formData = new FormData($( "#imgForm" )[0]);
+                //     // formData.append("textArea",this.textArea);
+                //     // formData.append("text",this.text);
+                //     $.ajax({  
+                //       url: 'http://10.11.0.206:8866/CrmApp/crm2/updateImage.do' ,  
+                //       type: 'POST',  
+                //       data: formData,  
+                //       async: false,  
+                //       cache: false,  
+                //       contentType: false,  
+                //       processData: false,  
+                //       success: function (returndata) {  
+                //           console.log(returndata);  
+                //       },  
+                //       error: function (returndata) {  
+                //           console.log(returndata);  
+                //       }  
+                //     });
+                // }else{
+                //     alert('请输入检查结果！')
+                // }
+
+                console.log(this.textArea);
+                this.$emit('childFormData','success');
+                return false;
+            },
+            xmTanUploadImg:function(obj) { 
+                obj = obj.target;
+                console.log(obj.files[0].name);
+                var fl=obj.files.length; 
+                // console.log(fl);
+                var imgSrc = this.imgSrc;
+                for(var i=0;i<fl;i++){  
+                  var file=obj.files[i];  
+                  // console.log(file);
+                  var reader = new FileReader();  
+                  // console.log(reader);
+                  //读取文件过程方法  
+                  reader.onloadstart = function (e) {  
+                      console.log("开始读取....");  
+                  }  
+                  reader.onprogress = function (e) {  
+                      console.log("正在读取中....");  
+                  }  
+                  reader.onabort = function (e) {  
+                      console.log("中断读取....");  
+                  }  
+                  reader.onerror = function (e) {  
+                      console.log("读取异常....");  
+                  }  
+                  reader.onload = function (e) {  
+                    console.log("成功读取....");  
+
+                    var src = e.target.result;
+                    imgSrc.push(src);
+
+                    // var imgstr='<img style="width:100px;height:100px;" src="'+e.target.result+'"/>';  
+                    // var oimgbox=document.getElementById("imgboxid");  
+                    // var ndiv=document.createElement("div");  
+
+                    // ndiv.innerHTML=imgstr;  
+                    // ndiv.className="img-div";  
+                    // oimgbox.append(ndiv);                 
+                  }
+                  reader.readAsDataURL(file);   
+                } 
+                this.imgSrc = imgSrc; 
+            }
+        }
+
     }
 </script>
