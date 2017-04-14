@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="submit">
-            <router-link to="search">登 录</router-link>
+            <p @click="logIn">登 录</p>
         </div>
 
     </div>
@@ -69,7 +69,7 @@
         line-height: 1.07rem;
         background: @fc;
         border-radius: 0.10rem;
-        a{
+        p{
             display: block;
             width: 100%;
             height: 100%;
@@ -81,11 +81,13 @@
 
 </style>
 <script>
+    import {path_java} from '@/common/variable.js'
     export default{
         data() {
             return{
                 userNum: '',
-                userPass: ''
+                userPass: '',
+                msg: []
             }
         },
         watch: {
@@ -108,7 +110,31 @@
 
         },
         methods:{
-
+            logIn() {
+                 console.log(this.msg.length);
+                if( this.userNum !='' && this.userPass !='' ){
+                    let str = {
+                        username: this.userNum,
+                        password: this.userPass
+                    }
+                    this.$http.jsonp( path_java + 'getVerifyUserInfo.do',
+                        {
+                            jsonp: 'jsoncallback',
+                            params: str
+                        }
+                    ).then(function(res){
+                        if( res.status == 200 ){
+                            if(JSON.parse(res.bodyText).status == 1){
+                                 this.$router.push( {path: '/search'} );
+                            }else{
+                                alert('账户或者密码错误！');
+                            }
+                        }else{
+                            alert('请检查网络！');
+                        }
+                    })
+                }
+            }
         }
     }
 </script>

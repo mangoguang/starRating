@@ -144,10 +144,7 @@ import {path_java} from '../common/variable.js'
         data(){
             return{
                 width: window.innerWidth,
-                imgMsg: {
-                    imgSrc: [],
-                    imgWidth: []
-                }
+                imgSrc: [],
                 textArea: '',
                 text: ''
             }
