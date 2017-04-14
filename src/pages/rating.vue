@@ -43,10 +43,10 @@ import $ from 'n-zepto'
       },
       upload:function(){
         var formData = new FormData($( "#imgForm" )[0]);
-        formData.append("msg","123");
+        // formData.append("msg","123");
         console.log(formData);
         $.ajax({  
-          url: 'http://10.11.0.206:8866/CrmApp/crm2/updateImage.do' ,  
+          url: 'http://10.11.0.206:8866/CrmApp/crm/updateImage.do' ,  
           type: 'POST',  
           data: formData,  
           async: false,  
