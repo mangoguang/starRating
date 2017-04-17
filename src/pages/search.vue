@@ -73,7 +73,8 @@
         }else{
           if(this.canGetData){
             this.canGetData = false;
-            this.$http.jsonp(path_web+'getStoreInfo.do', {
+            this.$http.jsonp(path_web+'getStoreInfo.do',
+            {
               jsonp: 'jsoncallback',
               params: {
                 keyWord: val,

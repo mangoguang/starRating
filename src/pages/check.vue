@@ -8,7 +8,7 @@
                 <p>评星进行中</p>
             </head-name>
             <head-right>
-                <p><i>2</i>/<span>5</span></p>
+                <p><i v-text="starLevel"></i>/<span v-text="starTatal"></span></p>
             </head-right>
         </div>
 
@@ -19,25 +19,25 @@
                 <div class="swiper-slide" v-for="(title, index) in swiperSlides">
                     <div class="contain">
                         <c-title>
-                            <p>{{ title.title }}</p>
+                            <p>{{ title.KHMK }}</p>
                         </c-title>
                         <c-head>
-                            <p><span>{{ title.titleHead }}</span> <i>({{ title.score }})</i></p>
+                            <p><span>{{ title.KHXM1 }}</span> <i>({{ title.FZ }}分)</i></p>
                         </c-head>
                         <p @click.self="dialogOpen(index)">规则</p>
 
-                        <div class="GZContain" v-show="swiperSlides[index].isGZ">
+                        <div class="GZContain" v-show="swiperSlides[index].ISGZ">
                             <span class="GZClose"></span>
                             <ul>
-                                <li v-for="(gzList,index) in swiperSlides[index].gzList">
-                                    {{ gzList }}
+                                <li v-for="(value,index) in swiperSlides[index].JCBZ.split('；')">
+                                     {{ value }}
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="contain_main">
                         <c-main1>
-                            <p>{{ title.standardW }}</p>
+                            <p>{{ title.JSBZ }}</p>
                         </c-main1>
                         <CMain2 @childFormData="formData"></CMain2>
                     </div>
@@ -86,6 +86,7 @@
             position: absolute;
             top: 1.8rem;
             left: 0;
+            width: 94%;
             height: auto;
             padding: 0.4rem 0.27rem;
             background: rgba(255,238,88,0.9);
@@ -176,6 +177,7 @@
 
 </style>
 <script>
+    import {path_java} from '@/common/variable.js'
     import $ from 'n-zepto'
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
@@ -192,65 +194,75 @@
         components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg, CMain2 },
         data() {
             return {
+                starLevel: '1',
+                starTatal: '',
                 textArea: '',
-                swiperSlides: [
-                    {
-                        index: 1,
-                        title: '标题 0标题',
-                        titleHead: 'SI/VI应用规范及维护0',
-                        score: '28分',
-                        standardW: '装阿什利爱上大口径按时爱上看到，打算卡技术的。挨打了盛大阿萨德，打四大块的adas.asdad来看。爱上大家卡的啊。茶水的骄傲来思考爱上大口径按时的。爱上打开看教案上，按打款了。',
-                        isGZ: false,
-                        gzList: [
-                            '1.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
-                            '2.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
-                            '3.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。'
-                        ]
-                    },{
-                        index: 2,
-                        title: '标题 1标题',
-                        titleHead: 'SI/VI应用规范及维护1',
-                        score: '10分',
-                        standardW: '装阿什利爱上大口径按时爱上看到，打算卡技术的。挨打了盛大阿萨德，打四大块的adas.asdad来看。爱上大家卡的啊。茶水的骄傲来思考爱上大口径按时的。爱上打开看教案上，按打款了。',
-                        isGZ: false,
-                        gzList: [
-                            '4.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
-                            '5.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
-                            '6.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。'
-                        ]
-                    },{
-                        index: 3,
-                        title: '标题 2标题',
-                        titleHead: 'SI/VI应用规范及维护2',
-                        score: '5分',
-                        standardW: '装阿什利爱上大口径按时爱上看到，打算卡技术的。挨打了盛大阿萨德，打四大块的adas.asdad来看。爱上大家卡的啊。茶水的骄傲来思考爱上大口径按时的。爱上打开看教案上，按打款了。',
-                        isGZ: false,
-                        gzList: [
-                            '7.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
-                            '8.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。',
-                            '9.阿卡卡爱上了大看剪了打看，阿拉卡罗拉阿萨德卡奥阿里卡就爱看挨打啦卡里就大了爱哭打蜡。'
-                        ]
-                    }
-                ],
+                swiperSlides: [],
             }
         },
         mounted() {
-            var mySwiper = new Swiper('.swiper-container', {
-                    observeParents:true,
-                    //autoplay: 1000,
-                    setWrapperSize :true,
-                    scrollbar: '.swiper-scrollbar',
-                    scrollbarHide: false
-                    //pagination : '.swiper-pagination',
-                    //paginationClickable :true,
+            // 确定加载模板
+            var firstN = '', secondN = '';
+            if( this.$route.params.city == 'C1' ){
+                firstN =  0;
+            }else{
+                firstN = 1;
+            }
+
+            if( this.$route.params.star == 'S1'){
+                secondN = 1;
+                this.starTatal = '1';
+            }else if( this.$route.params.star == 'S2' ){
+                secondN = 2;
+                this.starTatal = '2';
+            }else if( this.$route.params.star == 'S3'){
+                secondN = 3;
+                this.starTatal = '3';
+            }else if( this.$route.params.star == 'S4'){
+                secondN = 4;
+                this.starTatal = '4';
+            }else{
+                secondN = 5;
+                this.starTatal = '5';
+            }
+
+            var str = {
+                moduleid: 'M'+firstN+'2'
+            }
+
+            this.$http.jsonp(path_java + 'getModuleInfo.do',
+                {
+                    jsonp: 'jsoncallback',
+                    params: str
+                }
+            ).then(function(res){
+                if(res.status == 200){
+                    console.log(res.body)
+                    this.swiperSlides = res.body;
+
+                   console.log(this.swiperSlides);
+                }else{
+                    alert('请检查网络')
+                }
             })
+
+            var mySwiper = new Swiper('.swiper-container', {
+                observer:true,
+                observeParents:true,
+                //autoplay: 1000,
+                setWrapperSize :true,
+                scrollbar: '.swiper-scrollbar',
+                scrollbarHide: false
+                //pagination : '.swiper-pagination',
+                //paginationClickable :true,
+            });
         },
         methods: {
             back() {
                 this.$router.back();
             },
             dialogOpen(index) {
-                this.swiperSlides[index].isGZ = !this.swiperSlides[index].isGZ
+                this.swiperSlides[index].ISGZ = !this.swiperSlides[index].ISGZ;
             },
             formData:function(data){
                 console.log(data);

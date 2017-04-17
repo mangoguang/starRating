@@ -1,7 +1,6 @@
 <template>
     <div class="report">
         <div class="header">
-            <head-left></head-left>
             <head-name>
                 <p>该经销商评分结果</p>
             </head-name>
@@ -12,16 +11,10 @@
 
 </style>
 <script>
-    import HeadLeft from './components/header.vue'
-    import OtherComponent from './components/other.vue'
+    import HeadLeft from '@/components/HeadLeft.vue'
+    import HeadName from '@/components/HeadName.vue'
     export default{
         name: 'report',
-        data(){
-
-        },
-        components:{
-            'other-component':OtherComponent,
-            HeaderComponent,
-        }
+        components:{ HeadLeft, HeadName }
     }
 </script>
