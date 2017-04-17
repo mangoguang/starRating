@@ -17,12 +17,12 @@
         </div>
 
         <div class="inputArea">
-<!--             <label>备注：</label><input v-model="text" typeof="text" placeholder="备注..."> -->
+            <label>备注：</label><input name="comments" v-model="comments" typeof="text" placeholder="备注...">
         </div> 
-<!--         <div class="scoreArea">
+        <div class="scoreArea">
             <label>得分：</label>
-            <input type="number">
-        </div> -->
+            <input name="score" type="number">
+        </div>
         <span @click="formdata">提交</span>
         <span @click="getFlowNumber">获取流水号</span>
     </form>
@@ -40,7 +40,9 @@ import {path_java} from '../common/variable.js'
                 imgMsg:[],
                 imgSrc: [],
                 textArea: '',
-                text: ''
+                text: '',
+                comments: '',
+                score: 0
             }
         },
         methods:{
@@ -54,34 +56,22 @@ import {path_java} from '../common/variable.js'
                 .then(function(data) {
                     console.log(data);
                 })
+
+                // this.$http.jsonp(path_java+'getStarInfo.do', {
+                //   jsonp: 'jsoncallback',
+                //   params: {
+                //     flownumber: '123456',
+                //     star: 'S1',
+                //     reverse1: 'C1'
+                //   }
+                // })
+                // .then(function(data) {
+                //     console.log(data);
+                // })
             },
             formdata:function(){
-                // this.$http.jsonp(path_java+'getFlowNumber.do', {
-                //     jsonp: 'jsoncallback',
-                //     params: {
-                //     }
-                //   })
-                //   .then(function(data) {
-                //     console.log(data);
-                //   })
-
-
                 if(this.textArea != ''){
                     var formData = new FormData($( "#imgForm" )[0]);
-  // flownumber:
-  // star: S1,
-  // reverse1: C1,
-  // status: false, //星级评价是否完成
-  // table_sort: 1, //行号
-  // model: , //评星模板
-  // store_id: 1 - 3 HGL9, //店铺ID
-  // store_name: '东莞-王美玉', //店铺名称
-  // emp_num: '11608050', //评星人工号
-  // ts: ,
-  // score: 88, //此项分数
-  // comments: '备注内容', //备注
-  // result: '检查结果文本', //检查结果
-  // img: '图片' //提交图片
                     formData.append("flownumber", '123456');
                     formData.append("star", 'S2');
                     formData.append("reverse1", 'C1');
@@ -91,8 +81,8 @@ import {path_java} from '../common/variable.js'
                     formData.append("store_id", 'ttt');
                     formData.append("store_name",'do' );
                     formData.append("emp_num", '12111');
-                    formData.append("score", 88);
-                    formData.append("comments", '备注内容');
+                    formData.append("score", this.score);
+                    formData.append("comments", this.comments);
                     // formData.append("result", '检查结果内容');
                     $.ajax({  
                       url: 'http://10.11.0.206:8866/CrmApp/crm/updateImage.do' ,  
@@ -119,45 +109,19 @@ import {path_java} from '../common/variable.js'
             },
             xmTanUploadImg:function(obj) { 
                 obj = obj.target;
-                console.log(obj.files[0].name);
                 var fl=obj.files.length; 
-                // console.log(fl);
                 var imgSrc = this.imgSrc;
                 for(var i=0;i<fl;i++){  
                   var file=obj.files[i];  
-                  // console.log(file);
-                  var reader = new FileReader();  
-                  // console.log(reader);
-                  //读取文件过程方法  
-                  reader.onloadstart = function (e) {  
-                      console.log("开始读取....");  
-                  }  
-                  reader.onprogress = function (e) {  
-                      console.log("正在读取中....");  
-                  }  
-                  reader.onabort = function (e) {  
-                      console.log("中断读取....");  
-                  }  
-                  reader.onerror = function (e) {  
-                      console.log("读取异常....");  
-                  }  
+                  var reader = new FileReader();   
                   reader.onload = function (e) {  
-                    console.log("成功读取....");  
-
+                    // console.log("成功读取....");  
                     var src = e.target.result;
-                    imgSrc.push(src);
-
-                    // var imgstr='<img style="width:100px;height:100px;" src="'+e.target.result+'"/>';  
-                    // var oimgbox=document.getElementById("imgboxid");  
-                    // var ndiv=document.createElement("div");  
-
-                    // ndiv.innerHTML=imgstr;  
-                    // ndiv.className="img-div";  
-                    // oimgbox.append(ndiv);                 
+                    imgSrc.push(src);               
                   }
                   reader.readAsDataURL(file);   
                 } 
-                this.imgSrc = imgSrc; 
+                this.imgSrc = imgSrc;
             }
         },
         mounted:function(){
