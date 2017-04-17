@@ -39,6 +39,8 @@ import HeadName from '@/components/HeadName.vue'
         height: window.innerHeight,
         name: this.$route.params.name,
         city: this.$route.params.city,
+        id: this.$route.params.id,
+        num: this.$route.params.num,
         stars: ['一星','二星','三星','四星','五星'],
         star: 0
       }
@@ -52,7 +54,7 @@ import HeadName from '@/components/HeadName.vue'
       },
       startRating:function(){
         if(this.star != 0){
-          this.$router.push({ path: '/check/'+this.city+'/'+this.star})
+          this.$router.push({ path: '/check/'+this.city+'/'+this.star+'/'+this.id+'/'+this.name+'/'+this.num})
         }else{
           alert('请选择评星等级');
         }

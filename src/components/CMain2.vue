@@ -21,7 +21,7 @@
         </div> 
         <div class="scoreArea">
             <label>得分：</label>
-            <input name="score" type="number">
+            <input name="score" v-model="score" type="number">
         </div>
         <span @click="formdata">提交</span>
         <span @click="getFlowNumber">获取流水号</span>
@@ -31,9 +31,10 @@
 
 <script>
 import $ from 'n-zepto'
-import {path_java} from '../common/variable.js'
+import {path} from '../common/variable.js'
     export default{
         name: 'CMain2',
+        props: ['table'],
         data(){
             return{
                 width: window.innerWidth,
@@ -42,12 +43,17 @@ import {path_java} from '../common/variable.js'
                 textArea: '',
                 text: '',
                 comments: '',
-                score: 0
+                score: '',
+                star: this.$route.params.star,
+                city: this.$route.params.city,
+                name: this.$route.params.name,
+                id: this.$route.params.id,
+                num: this.$route.params.num    
             }
         },
         methods:{
             getFlowNumber:function(){
-                this.$http.jsonp(path_java+'getFlowNum.do', {
+                this.$http.jsonp(path+'crm/getFlowNum.do', {
                   jsonp: 'jsoncallback',
                   params: {
                     store_id: 'ttt'
@@ -71,34 +77,35 @@ import {path_java} from '../common/variable.js'
             },
             formdata:function(){
                 if(this.textArea != ''){
-                    var formData = new FormData($( "#imgForm" )[0]);
-                    formData.append("flownumber", '123456');
-                    formData.append("star", 'S2');
-                    formData.append("reverse1", 'C1');
-                    formData.append("status", 1);
-                    formData.append("table_sort", 2);
-                    formData.append("model", 'M02');
-                    formData.append("store_id", 'ttt');
-                    formData.append("store_name",'do' );
-                    formData.append("emp_num", '12111');
-                    formData.append("score", this.score);
-                    formData.append("comments", this.comments);
-                    // formData.append("result", '检查结果内容');
-                    $.ajax({  
-                      url: 'http://10.11.0.206:8866/CrmApp/crm/updateImage.do' ,  
-                      type: 'POST',  
-                      data: formData,  
-                      async: false,  
-                      cache: false,  
-                      contentType: false,  
-                      processData: false,  
-                      success: function (returndata) {  
-                          console.log(returndata);  
-                      },  
-                      error: function (returndata) {  
-                          console.log(returndata);  
-                      }  
-                    });
+                    if(this.score != 0){
+                        var formData = new FormData($( "#imgForm" )[0]);
+                        formData.append("flownumber", '123456');
+                        formData.append("star", this.star);
+                        formData.append("reverse1", this.city);
+                        formData.append("status", 0);
+                        formData.append("table_sort", '2');
+                        formData.append("model", 'M02');
+                        formData.append("store_id", this.id);
+                        formData.append("store_name", this.name );
+                        formData.append("emp_num", this.num);
+                        $.ajax({  
+                          url: 'http://10.11.0.206:8866/CrmApp/crm/updateImage.do' ,  
+                          type: 'POST',  
+                          data: formData,  
+                          async: false,  
+                          cache: false,  
+                          contentType: false,  
+                          processData: false,  
+                          success: function (returndata) {  
+                              console.log(returndata);  
+                          },  
+                          error: function (returndata) {  
+                              console.log(returndata);  
+                          }  
+                        });
+                    }else{
+                        alert('请输入分数！')
+                    } 
                 }else{
                     alert('请输入检查结果！')
                 }
@@ -125,7 +132,7 @@ import {path_java} from '../common/variable.js'
             }
         },
         mounted:function(){
-            // $('.imgLi').css('height','200px');
+            console.log(this.table);
         }
 
     }
@@ -176,12 +183,15 @@ import {path_java} from '../common/variable.js'
                     float: left;
                     width: 15%;
                     height: 100px;
-                    margin-right: 2%; 
+                    margin-left: 1.33%; 
                     margin-top: .2rem;
                 }
                 li:last-child{
                     margin-right: 0;
                 }
+                // li:nth-child(2n){
+                //     margin-right: 0;
+                // }
                 img{
                     width: 100%;
                     height: 100%;

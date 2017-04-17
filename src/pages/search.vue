@@ -34,15 +34,6 @@
         </li>
       </ul>
     </div>
-
-<!--     <div class="keyBox">
-      <h3>关键字</h3>
-      <ul class="clearfix">
-        <li>
-            <router-link to="result">东莞市</router-link>
-        </li>
-      </ul>
-    </div> -->
   </div>
 </template>
 
@@ -51,13 +42,14 @@
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
     import HeadRight from '@/components/HeadRight.vue'
-    import {path_web} from '../common/variable.js'
+    import {path} from '../common/variable.js'
   export default{
     name: 'search',
     components: { HeadLeft, HeadName, HeadRight },
     data () {
       return {
         height: window.innerHeight,
+        userNum: this.$route.params.num,
         keyWord: '',
         resultList: [],
         starSum: [5,5,0,0],
@@ -73,7 +65,7 @@
         }else{
           if(this.canGetData){
             this.canGetData = false;
-            this.$http.jsonp(path_web+'getStoreInfo.do', {
+            this.$http.jsonp(path+'crm2/getStoreInfo.do', {
               jsonp: 'jsoncallback',
               params: {
                 keyWord: val,
@@ -103,7 +95,7 @@
     },
     methods:{
       toRatingStart:function(index,resultList){
-        this.$router.push({ path: '/startRating/'+this.resultList[index].name+'/'+resultList[index].reverse1});
+        this.$router.push({ path: '/startRating/'+this.resultList[index].name+'/'+resultList[index].reverse1+'/'+resultList[index].id+'/'+this.userNum});
       },
       clearKey:function(){
         this.keyWord = '';

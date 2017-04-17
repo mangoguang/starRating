@@ -81,7 +81,7 @@
 
 </style>
 <script>
-    import {path_java} from '@/common/variable.js'
+    import {path} from '@/common/variable.js'
     export default{
         data() {
             return{
@@ -117,7 +117,7 @@
                         username: this.userNum,
                         password: this.userPass
                     }
-                    this.$http.jsonp( path_java + 'getVerifyUserInfo.do',
+                    this.$http.jsonp( path + 'crm/getVerifyUserInfo.do',
                         {
                             jsonp: 'jsoncallback',
                             params: str
@@ -125,7 +125,7 @@
                     ).then(function(res){
                         if( res.status == 200 ){
                             if(JSON.parse(res.bodyText).status == 1){
-                                 this.$router.push( {path: '/search'+'?userNum='+this.userNum} );
+                                 this.$router.push( {path: '/search'+'/'+this.userNum} );
                             }else{
                                 alert('账户或者密码错误！');
                             }

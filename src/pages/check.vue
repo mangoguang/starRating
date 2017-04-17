@@ -39,7 +39,7 @@
                         <c-main1>
                             <p>{{ title.standardW }}</p>
                         </c-main1>
-                        <CMain2 @childFormData="formData"></CMain2>
+                        <CMain2 :table="{'data':index,'da':'123'}" @childFormData="formData"></CMain2>
                     </div>
                 </div>
 
@@ -177,6 +177,7 @@
 </style>
 <script>
     import $ from 'n-zepto'
+    import {path} from '../common/variable.js'
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
     import HeadRight from '@/components/HeadRight.vue'
@@ -193,6 +194,10 @@
         data() {
             return {
                 textArea: '',
+                flownum: '123456',
+                table_sort: '',
+                model: '',
+                tableSort: '1111',
                 swiperSlides: [
                     {
                         index: 1,
@@ -243,6 +248,16 @@
                     scrollbarHide: false
                     //pagination : '.swiper-pagination',
                     //paginationClickable :true,
+            })
+            //获取流水号
+            this.$http.jsonp(path+'crm/getModuleInfo.do', {
+              jsonp: 'jsoncallback',
+              params: {
+                moduleid: 'M11'
+              }
+            })
+            .then(function(data) {
+                console.log(data);
             })
         },
         methods: {

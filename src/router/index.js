@@ -13,11 +13,11 @@ export default new Router({
     name: 'login',
     component: require('../pages/login')
   }, {
-    path: '/startRating/:name/:city',
+    path: '/startRating/:name/:city/:id/:num',
     name: 'startRating',
     component: require('../pages/start-rating')
   }, {
-    path: '/search',
+    path: '/search/:num',
     name: 'search',
     component: require('../pages/search')
   }, {
@@ -33,7 +33,7 @@ export default new Router({
     name: 'rating',
     component: require('../pages/rating')
   }, {
-    path: '/check/:city/:star',
+    path: '/check/:city/:star/:id/:name/:num',
     name: 'check',
     component: require('../pages/check')
   }]
