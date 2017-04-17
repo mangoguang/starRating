@@ -127,8 +127,8 @@
                             }else{
                                 alert('账户或者密码错误！');
                             }
-                        }else{
-                            alert('请检查网络！');
+                        }else if(res.status == 0){
+                            alert('网络发生错误！');
                         }
                     })
                 }
