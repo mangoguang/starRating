@@ -242,4 +242,3 @@ import {path_java} from '../common/variable.js'
         }
     }
 </style>
-
