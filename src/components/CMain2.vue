@@ -278,30 +278,3 @@ import {path_java} from '../common/variable.js'
         }
     }
 </style>
-<<<<<<< HEAD
-<script>
-import {path_java} from '../common/variable.js'
-    export default{
-        name: 'CMain2',
-        data(){
-            return{
-                width: window.innerWidth,
-                imgSrc: [],
-                textArea: '',
-                text: ''
-            }
-        },
-        methods:{
-            formdata:function(){
-                console.log(this.width);
-                // this.$http.jsonp(path_java+'getFlowNumber.do', {
-                //     jsonp: 'jsoncallback',
-                //     params: {
-                //     }
-                //   })
-                //   .then(function(data) {
-                //     console.log(data);
-                //   })
-=======
->>>>>>> fb223dde4180b967f4c4506422b9b3c37d059e92
-

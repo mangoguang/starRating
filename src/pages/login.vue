@@ -125,7 +125,7 @@
                     ).then(function(res){
                         if( res.status == 200 ){
                             if(JSON.parse(res.bodyText).status == 1){
-                                 this.$router.push( {path: '/search'} );
+                                 this.$router.push( {path: '/search'+'?userNum='+this.userNum} );
                             }else{
                                 alert('账户或者密码错误！');
                             }
