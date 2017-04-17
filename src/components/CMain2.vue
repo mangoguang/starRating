@@ -25,6 +25,9 @@
         </div> -->
         <span @click="formdata">提交</span>
         <span @click="getFlowNumber">获取流水号</span>
+
+        <span class="now" @click="goReport"></span>
+
     </form>
     </div>
 </template>
@@ -44,6 +47,11 @@ import {path_java} from '../common/variable.js'
             }
         },
         methods:{
+
+            goReport() {
+                this.$router.push({ path: '/report'})
+            },
+
             getFlowNumber:function(){
                 this.$http.jsonp(path_java+'getFlowNum.do', {
                   jsonp: 'jsoncallback',
@@ -170,6 +178,14 @@ import {path_java} from '../common/variable.js'
 <style lang="less" scoped>
 @import "../less/variable.less";
     .CMain2{
+
+        .now{
+            display: block;
+            height: 1rem;
+            background: #eee;
+        }
+
+
         width: 92%;
         margin: 0 auto;
         textarea{
