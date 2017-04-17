@@ -36,5 +36,10 @@ export default new Router({
     path: '/check/:city/:star/:id/:name/:num',
     name: 'check',
     component: require('../pages/check')
+  }, {
+    path: '/report',
+    name: 'report',
+    component: require('../pages/report')
+
   }]
 })

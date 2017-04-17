@@ -86,8 +86,7 @@
         data() {
             return{
                 userNum: '',
-                userPass: '',
-                msg: []
+                userPass: ''
             }
         },
         watch: {
@@ -111,7 +110,6 @@
         },
         methods:{
             logIn() {
-                 console.log(this.msg.length);
                 if( this.userNum !='' && this.userPass !='' ){
                     let str = {
                         username: this.userNum,
