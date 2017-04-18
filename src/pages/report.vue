@@ -15,14 +15,14 @@
         </div>
 
         <div class="content">
-            <h1 v-text="storeName"></h1>
+            <h1 v-text="scores[0].STORE_NAME"></h1>
             <div class="sTitle">
                 <img src="../assets/5-cituy.png">
-                <span v-text="name"></span>
+                <span v-text="scores[0].city_lvl"></span>
             </div>
             <ul>
-                <li v-cloak v-for="score in scores">
-                    <span>{{ score.name }}</span>： <i>{{ score.value }}</i> 分
+                <li v-cloak v-for="(score, index) in scores">
+                    <span>{{ score.star_lvl }}</span>： <i>{{ score.SCORE }}</i> 分
                 </li>
             </ul>
         </div>
@@ -112,23 +112,35 @@
 
 </style>
 <script>
+    import {path} from '@/common/variable.js'
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
+
     export default{
         name: 'report',
         components:{ HeadLeft, HeadName },
         data() {
             return {
-                storeName: '东莞市厚街镇3D专卖店',
-                name: '三-六级城市',
-                scores: [
-                    {name: '一星', value: '98'},
-                    {name: '二星', value: '88'},
-                    {name: '二星', value: '88'},
-                    {name: '二星', value: '88'},
-                    {name: '二星', value: '88'}
-                ]
+                scores: []
             }
+        },
+        mounted(){
+            this.$http.jsonp( path+'crm/getTotalScore.do', {
+                jsonp: 'jsoncallback',
+                params: { flownumber:'123456', reverse1: 'C1'}
+            }).then(function(res){
+                if(res.status==200){
+                    this.scores = res.body;
+                }
+            }).catch(function(res){
+                if(res.status == 0){
+                    alert('请检查网络');
+                }else if(res.status == 404){
+                    alert('请求页面不存在');
+                }else if(res.status == 500){
+                    alert('服务器发生异常');
+                }
+            })
         },
         methods: {
             back() {
