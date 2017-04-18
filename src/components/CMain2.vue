@@ -104,7 +104,6 @@ import {path} from '../common/variable.js'
                         formData.append("store_id", this.id);
                         formData.append("store_name", this.name );
                         formData.append("emp_num", this.num);
-                        var obj = {'name': 123};
                         $.ajax({  
                           url: path+'crm/updateImage.do' ,  
                           type: 'POST',  
@@ -114,10 +113,10 @@ import {path} from '../common/variable.js'
                           contentType: false,  
                           processData: false,  
                           success: function (data) {
-                              var obj = eval('(' + data + ')'); 
-                              if(obj.status == 0){
+                              var data = eval('(' + data + ')'); 
+                              if(data.status == 0){
                                 alert('该部分数据已提交，请勿重复提交！');
-                              }else if(obj.status == 1){
+                              }else if(data.status == 1){
                                 alert('数据提交成功！');
                               }
                           },  

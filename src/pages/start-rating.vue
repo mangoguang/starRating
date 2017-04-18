@@ -109,6 +109,7 @@ import HeadName from '@/components/HeadName.vue'
     font-size: @f28;
     padding-left: .586667rem;
     background: url(../assets/5-cituy.png) no-repeat;
+    background-size: auto .4rem;
   }
 }
 ul.stars{
