@@ -264,7 +264,7 @@
                     this.swiperSlides = res.body;
                 }
             }).catch(function(res){
-                if(res.status == 200){
+                if(res.status == 0){
                     alert('请检查网络');
                 }else if(res.status == 404){
                     alert('请求页面不存在');
