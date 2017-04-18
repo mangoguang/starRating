@@ -131,7 +131,6 @@
             }).then(function(res){
                 if(res.status==200){
                     this.scores = res.body;
-                    console.log(this.scores);
                 }
             }).catch(function(res){
                 if(res.status == 0){
