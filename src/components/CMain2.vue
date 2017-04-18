@@ -24,7 +24,6 @@
             <input name="score" v-model="score" type="number">
         </div>
         <span @click="formdata">提交</span>
-        <span @click="getFlowNumber">获取流水号</span>
 
         <span class="now" @click="goReport"></span>
 
@@ -47,11 +46,14 @@ import {path} from '../common/variable.js'
                 text: '',
                 comments: '',
                 score: '',
-                star: this.$route.params.star,
+                status: 0,
+                star: this.$route.params.star,//想要评星的等级
                 city: this.$route.params.city,
                 name: this.$route.params.name,
                 id: this.$route.params.id,
-                num: this.$route.params.num    
+                num: this.$route.params.num,
+                flownum: this.$route.params.flownum,
+                tab: {}
             }
         },
         methods:{
@@ -59,56 +61,45 @@ import {path} from '../common/variable.js'
             goReport() {
                 this.$router.push({ path: '/report'})
             },
-
-            getFlowNumber:function(){
-                this.$http.jsonp(path+'crm/getFlowNum.do', {
-                  jsonp: 'jsoncallback',
-                  params: {
-                    store_id: 'ttt'
-                  }
-                })
-                .then(function(data) {
-                    console.log(data);
-                })
-
-                // this.$http.jsonp(path_java+'getStarInfo.do', {
-                //   jsonp: 'jsoncallback',
-                //   params: {
-                //     flownumber: '123456',
-                //     star: 'S1',
-                //     reverse1: 'C1'
-                //   }
-                // })
-                // .then(function(data) {
-                //     console.log(data);
-                // })
-            },
             formdata:function(){
                 if(this.textArea != ''){
                     if(this.score != 0){
                         var formData = new FormData($( "#imgForm" )[0]);
-                        formData.append("flownumber", '123456');
-                        formData.append("star", this.star);
+                        formData.append("flownumber", this.flownum);
+                        formData.append("star", 'S'+this.table.starLevel);
                         formData.append("reverse1", this.city);
-                        formData.append("status", 0);
-                        formData.append("table_sort", '2');
-                        formData.append("model", 'M02');
+                        formData.append("status", this.status);
+                        formData.append("table_sort", this.table.table_sort);
+                        formData.append("model", this.table.model);
                         formData.append("store_id", this.id);
                         formData.append("store_name", this.name );
                         formData.append("emp_num", this.num);
+                        var obj = {'name': 123};
                         $.ajax({  
-                          url: 'http://10.11.0.206:8866/CrmApp/crm/updateImage.do' ,  
+                          url: path+'crm/updateImage.do' ,  
                           type: 'POST',  
                           data: formData,  
                           async: false,  
                           cache: false,  
                           contentType: false,  
                           processData: false,  
-                          success: function (returndata) {  
-                              console.log(returndata);  
+                          success: function (data) {
+                              var obj = eval('(' + data + ')'); 
+                              if(obj.status == 0){
+                                alert('该部分数据已提交，请勿重复提交！');
+                              }else if(obj.status == 1){
+                                alert('数据提交成功！');
+                              }
+                              console.log('111111111111111111');
+                              // console.log(this.table)
+                              // console.log((parseInt(this.table.table_sort)+1))
+
+                              // if(this.table.length == (parseInt(this.table.table_sort)+1)){
+                              //   alert('success');
+                              // }
                           },  
-                          error: function (returndata) {  
-                              console.log(returndata);  
+                          error: function (data) {  
+                              console.log(data);  
                           }  
                         });
                     }else{
@@ -117,8 +108,6 @@ import {path} from '../common/variable.js'
                 }else{
                     alert('请输入检查结果！')
                 }
-
-                console.log(this.textArea);
                 this.$emit('childFormData','success');
                 return false;
             },
@@ -140,7 +129,34 @@ import {path} from '../common/variable.js'
             }
         },
         mounted:function(){
-            console.log(this.table);
+            this.tab = this.table;
+            //获取表单数据
+            this.$http.jsonp(path+'crm/getStarInfoRow.do', {
+              jsonp: 'jsoncallback',
+              params: {
+                flownumber: this.flownum,
+                star: 'S'+this.table.starLevel,
+                reverse1: this.city,
+                table_sort: this.table.table_sort
+              }
+            })
+            .then(function(data) {
+                // console.log(data);
+                data = data.body;
+                //如果数据记录存在，则填入表单
+                if(data.length>0){
+                    this.comments = data[0].COMMENTS;
+                    this.textArea = data[0].JCJG;
+                    this.score = data[0].SCORE;
+                    var imgs = data[0].IMGS;
+                    var imgSrc = [];
+                    for(var i=0;i<imgs.length;i++){
+                        imgSrc.push('http://10.11.0.206:8866/CrmApp'+imgs[i].ATT_PATH);
+                    }
+                    this.imgSrc = imgSrc;
+                }
+                console.log(data);
+            })
         }
 
     }

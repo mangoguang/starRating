@@ -39,7 +39,7 @@
                         <c-main1>
                             <p>{{ title.JSBZ }}</p>
                         </c-main1>
-                        <CMain2 :table="{'data':index,'da':'123'}" @childFormData="formData"></CMain2>
+                        <CMain2 :table="{'table_sort':swiperSlides[index].TABLE_SORT,'length':swiperSlides.length,'model':model,'starLevel':starLevel}" @childFormData="formData"></CMain2>
                     </div>
                 </div>
 
@@ -47,6 +47,111 @@
         </div>
     </div>
 </template>
+
+<script>
+    import $ from 'n-zepto'
+    import {path} from '../common/variable.js'
+    import HeadLeft from '@/components/HeadLeft.vue'
+    import HeadName from '@/components/HeadName.vue'
+    import HeadRight from '@/components/HeadRight.vue'
+    import CMain1 from '@/components/CMain1.vue'
+    import CMain2 from '@/components/CMain2.vue'
+    import CImg from '@/components/CImg.vue'
+
+    import CTitle from '@/components/CTitle.vue'
+    import CHead from '@/components/CHead.vue'
+
+    export default{
+        name: 'check',
+        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg, CMain2 },
+        data() {
+            return {
+                id: this.$route.params.id,
+                star: this.$route.params.star,
+                starLevel: this.$route.params.starLevel,//评星处于哪个等级的标记
+                starTatal: 0,
+                textArea: '',
+                flownum: '',
+                model: '',
+                tableSort: '',
+                swiperSlides: []
+                // rowStatus: []    //设置监控每个星级评星各行数据时候提交的数组。
+            }
+        },
+        methods: {
+            back() {
+                this.$router.back();
+            },
+            dialogOpen(index) {
+                this.swiperSlides[index].ISGZ = !this.swiperSlides[index].ISGZ;
+            },
+            formData:function(data){
+                // console.log(data);
+            }
+        },
+        beforeMount:function(){
+
+        },
+        mounted() {
+            // 确定加载模板
+            var firstN = '', secondN = '';
+            if( this.$route.params.city == 'C1' ){
+                firstN =  0;
+            }else{
+                firstN = 1;
+            }
+
+            if( this.star == 'S1'){
+                secondN = 1;
+                this.starTatal = 1;
+            }else if( this.star == 'S2' ){
+                secondN = 2;
+                this.starTatal = 2;
+            }else if( this.star == 'S3'){
+                secondN = 3;
+                this.starTatal = 3;
+            }else if( this.star == 'S4'){
+                secondN = 4;
+                this.starTatal = 4;
+            }else{
+                secondN = 5;
+                this.starTatal = 5;
+            }
+
+            var str = {
+                moduleid: 'M'+firstN+this.starLevel
+            }
+
+            this.$http.jsonp(path + 'crm/getModuleInfo.do',
+                {
+                    jsonp: 'jsoncallback',
+                    params: str
+                }
+            ).then(function(res){
+                if(res.status == 200){
+                    // console.log(res.body)
+                    this.swiperSlides = res.body;
+                }else{
+                    alert('请检查网络')
+                }
+
+                this.model = res.body[0].MODULE_ID;
+            })
+
+            var mySwiper = new Swiper('.swiper-container', {
+                observer:true,
+                observeParents:true,
+                //autoplay: 1000,
+                setWrapperSize :true,
+                scrollbar: '.swiper-scrollbar',
+                scrollbarHide: false
+                //pagination : '.swiper-pagination',
+                //paginationClickable :true,
+            });
+        }
+    }
+</script>
+
 <style lang="less" scoped>
     @import "../assets/css/swiper.css";
     @import "../less/variable";
@@ -176,115 +281,4 @@
     }
 
 </style>
-<script>
-    import $ from 'n-zepto'
-    import {path} from '../common/variable.js'
-    import HeadLeft from '@/components/HeadLeft.vue'
-    import HeadName from '@/components/HeadName.vue'
-    import HeadRight from '@/components/HeadRight.vue'
-    import CMain1 from '@/components/CMain1.vue'
-    import CMain2 from '@/components/CMain2.vue'
-    import CImg from '@/components/CImg.vue'
 
-    import CTitle from '@/components/CTitle.vue'
-    import CHead from '@/components/CHead.vue'
-
-    export default{
-        name: 'check',
-        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg, CMain2 },
-        data() {
-            return {
-                starLevel: '1',
-                starTatal: '',
-                textArea: '',
-                flownum: '123456',
-                table_sort: '',
-                model: '',
-                tableSort: '1111',
-                swiperSlides: []
-            }
-        },
-        mounted() {
-            // 确定加载模板
-            var firstN = '', secondN = '';
-            if( this.$route.params.city == 'C1' ){
-                firstN =  0;
-            }else{
-                firstN = 1;
-            }
-
-            if( this.$route.params.star == 'S1'){
-                secondN = 1;
-                this.starTatal = '1';
-            }else if( this.$route.params.star == 'S2' ){
-                secondN = 2;
-                this.starTatal = '2';
-            }else if( this.$route.params.star == 'S3'){
-                secondN = 3;
-                this.starTatal = '3';
-            }else if( this.$route.params.star == 'S4'){
-                secondN = 4;
-                this.starTatal = '4';
-            }else{
-                secondN = 5;
-                this.starTatal = '5';
-            }
-
-            var str = {
-                moduleid: 'M'+firstN+'2'
-            }
-
-            this.$http.jsonp(path + 'crm/getModuleInfo.do',
-                {
-                    jsonp: 'jsoncallback',
-                    params: str
-                }
-            ).then(function(res){
-                if(res.status == 200){
-                    console.log(res.body)
-                    this.swiperSlides = res.body;
-
-                   console.log(this.swiperSlides);
-                }else{
-                    alert('请检查网络')
-                }
-            })
-
-            //获取流水号
-            this.$http.jsonp(path+'crm/getModuleInfo.do', {
-              jsonp: 'jsoncallback',
-              params: {
-                moduleid: 'M11'
-              }
-            })
-            .then(function(data) {
-                console.log(data);
-            })
-
-
-            var mySwiper = new Swiper('.swiper-container', {
-                observer:true,
-                observeParents:true,
-                //autoplay: 1000,
-                setWrapperSize :true,
-                scrollbar: '.swiper-scrollbar',
-                scrollbarHide: false
-                //pagination : '.swiper-pagination',
-                //paginationClickable :true,
-            });
-
-        },
-        methods: {
-            back() {
-                this.$router.back();
-            },
-            dialogOpen(index) {
-                this.swiperSlides[index].ISGZ = !this.swiperSlides[index].ISGZ;
-            },
-            formData:function(data){
-                console.log(data);
-            }
-
-        }
-    }
-</script>

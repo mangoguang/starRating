@@ -33,7 +33,7 @@ export default new Router({
     name: 'rating',
     component: require('../pages/rating')
   }, {
-    path: '/check/:city/:star/:id/:name/:num',
+    path: '/check/:city/:star/:id/:name/:num/:flownum/:starLevel',
     name: 'check',
     component: require('../pages/check')
   }, {

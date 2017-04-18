@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import {path} from '../common/variable.js'
 import Vue from 'vue'
 import vueResource from 'vue-resource'
 import HeadLeft from '@/components/HeadLeft.vue'
@@ -42,7 +43,8 @@ import HeadName from '@/components/HeadName.vue'
         id: this.$route.params.id,
         num: this.$route.params.num,
         stars: ['一星','二星','三星','四星','五星'],
-        star: 0
+        star: 0,
+        flownum: ''
       }
     },
     methods:{
@@ -54,12 +56,33 @@ import HeadName from '@/components/HeadName.vue'
       },
       startRating:function(){
         if(this.star != 0){
-          this.$router.push({ path: '/check/'+this.city+'/'+this.star+'/'+this.id+'/'+this.name+'/'+this.num})
+          this.$router.push({ path: '/check/'+this.city+'/'+this.star+'/'+this.id+'/'+this.name+'/'+this.num+'/'+this.flownum+'/1'})
         }else{
           alert('请选择评星等级');
         }
         return false;
       }
+    },
+    mounted:function(){
+      //获取流水号
+      this.$http.jsonp(path+'crm/getFlowNum.do', {
+        jsonp: 'jsoncallback',
+        params: {
+          store_id: this.id
+        }
+      })
+      .then(function(data) {
+          this.flownum = data.body[0].FLOWNUMBER;
+          //如果流水号不存在，则产生一个流水号
+          if(this.flownum == ''){
+              this.$http.jsonp(path+'crm/getFlowNumber.do', {
+                jsonp: 'jsoncallback'
+              })
+              .then(function(data) {
+                  this.flownum = data.body.flowNumber;
+              })
+          }
+      })
     }
   }
 </script>
