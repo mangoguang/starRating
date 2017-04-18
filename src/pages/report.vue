@@ -18,11 +18,11 @@
             <h1 v-text="scores[0].STORE_NAME"></h1>
             <div class="sTitle">
                 <img src="../assets/5-cituy.png">
-                <span v-text="scores[0].CITY_LVL"></span>
+                <span v-text="scores[0].city_lvl"></span>
             </div>
             <ul>
                 <li v-cloak v-for="(score, index) in scores">
-                    <span>{{ score.STAR_LVL_CODE }}</span>： <i>{{ score.SCORE }}</i> 分
+                    <span>{{ score.star_lvl }}</span>： <i>{{ score.SCORE }}</i> 分
                 </li>
             </ul>
         </div>
