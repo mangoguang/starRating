@@ -17,7 +17,7 @@
 
     <ul class="stars clearfix">
       <li v-for="(star,index) in stars">
-        <div class="starList" @click="starSelect(index,stars)" v-bind:style="{'background-image': 'url(../static/images/star'+(index+1)+'.png)'}"></div>
+        <div class="starList" @click="starSelect(index,stars)" v-bind:style="{'background-image': 'url(static/images/star'+(index+1)+'.png)'}"></div>
         <p>{{star}}</p>
       </li>
       <li class="startLi"><button class="startBtn" v-on:click="startRating">开始评星</button></li>
