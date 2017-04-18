@@ -9,7 +9,7 @@
                 <li class="imgLi" v-for="src in imgSrc">
                     <img v-bind:src="src" alt="">
                 </li>
-                <li v-bind:style="{ heigth: 100 + 'px' }">
+                <li class="imgLi" v-bind:style="{ heigth: 100 + 'px' }">
                     <label class="imgSelect" for="xdaTanFileImg"></label>
                 </li>
             </ul>  
@@ -23,10 +23,9 @@
             <label>得分：</label>
             <input name="score" v-model="score" type="number">
         </div>
-        <span @click="formdata">提交</span>
-
-        <span v-if="nextShow" class="now" @click="nextStar">下一评级</span>
-        <span v-if="finish" class="now" @click="starFinish">下一评级</span>
+        <span class="formSubmit" v-bind:class="{'on':haveSubmit}" @click="formdata">提交</span>
+        <span class="formSubmit" v-if="nextShow" @click="nextStar">下一评级</span>
+        <span class="formSubmit" v-if="finish" @click="starFinish">完成评星</span>
 
     </form>
     </div>
@@ -46,6 +45,7 @@ import {path} from '../common/variable.js'
                 textArea: '',
                 text: '',
                 comments: '',
+                haveSubmit: false,
                 score: '',
                 status: 0,
                 star: this.$route.params.star,//想要评星的等级
@@ -64,20 +64,36 @@ import {path} from '../common/variable.js'
                 this.$router.go(0);
             }
         },
+        updated:function(){
+            $('.imgLi').css('height',(this.width*0.135)+'px');
+        },
         methods:{
             //评星完成
             starFinish(){
-                this.$router.push({ path: '/report'})
+                var el = $('.on')
+                if(el.length == this.table.length){
+                    if(this.status = 1){
+                        this.$router.push({ path: '/report'})
+                    }
+                }else{
+                    alert('您的数据没有提交完全，请将全部数据提交！')
+                }
             },
             //跳转下一星级评星
             nextStar() {
-                this.$router.push({ path: '/check/'+this.city+'/'+this.star+'/'+this.id+'/'+this.name+'/'+this.num+'/'+this.flownum+'/'+(parseInt(this.table.starLevel)+1)})
-                this.$router.go(0);
+                var el = $('.on')
+                if(el.length == this.table.length){
+                    this.$router.push({ path: '/check/'+this.city+'/'+this.star+'/'+this.id+'/'+this.name+'/'+this.num+'/'+this.flownum+'/'+(parseInt(this.table.starLevel)+1)})
+                    this.$router.go(0);
+                }else{
+                    alert('您的数据没有提交完全，请将全部数据提交！')
+                }
             },
             //提交表单
             formdata:function(){
                 if(this.textArea != ''){
                     if(this.score != 0){
+                        this.haveSubmit = true;
                         var formData = new FormData($( "#imgForm" )[0]);
                         formData.append("flownumber", this.flownum);
                         formData.append("star", 'S'+this.table.starLevel);
@@ -137,10 +153,12 @@ import {path} from '../common/variable.js'
             }
         },
         mounted:function(){
+            $('.imgLi').css('height','200px');
             if(this.table.table_sort == this.table.length){
                 this.nextShow = true;
                 if(('S'+this.table.starLevel) == this.star){
                     this.status = 1;
+                    this.finish = true;
                 }
             }
             //获取表单数据
@@ -158,6 +176,7 @@ import {path} from '../common/variable.js'
                 data = data.body;
                 //如果数据记录存在，则填入表单
                 if(data.length>0){
+                    this.haveSubmit = true;
                     this.comments = data[0].COMMENTS;
                     this.textArea = data[0].JCJG;
                     this.score = data[0].SCORE;
@@ -226,7 +245,6 @@ import {path} from '../common/variable.js'
                 li{
                     float: left;
                     width: 15%;
-                    height: 100px;
                     margin-left: 1.33%; 
                     margin-top: .2rem;
                 }
