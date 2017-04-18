@@ -25,7 +25,8 @@
         </div>
         <span @click="formdata">提交</span>
 
-        <span class="now" @click="goReport"></span>
+        <span v-if="nextShow" class="now" @click="nextStar">下一评级</span>
+        <span v-if="finish" class="now" @click="starFinish">下一评级</span>
 
     </form>
     </div>
@@ -53,14 +54,27 @@ import {path} from '../common/variable.js'
                 id: this.$route.params.id,
                 num: this.$route.params.num,
                 flownum: this.$route.params.flownum,
-                tab: {}
+                nextShow: false,
+                finish: false
+            }
+        },
+        watch:{
+            //如果参数改变，则刷新组件，触发组件重新渲染。
+            '$route' () {
+                this.$router.go(0);
             }
         },
         methods:{
-
-            goReport() {
+            //评星完成
+            starFinish(){
                 this.$router.push({ path: '/report'})
             },
+            //跳转下一星级评星
+            nextStar() {
+                this.$router.push({ path: '/check/'+this.city+'/'+this.star+'/'+this.id+'/'+this.name+'/'+this.num+'/'+this.flownum+'/'+(parseInt(this.table.starLevel)+1)})
+                this.$router.go(0);
+            },
+            //提交表单
             formdata:function(){
                 if(this.textArea != ''){
                     if(this.score != 0){
@@ -90,13 +104,6 @@ import {path} from '../common/variable.js'
                               }else if(obj.status == 1){
                                 alert('数据提交成功！');
                               }
-                              console.log('111111111111111111');
-                              // console.log(this.table)
-                              // console.log((parseInt(this.table.table_sort)+1))
-
-                              // if(this.table.length == (parseInt(this.table.table_sort)+1)){
-                              //   alert('success');
-                              // }
                           },  
                           error: function (data) {  
                               console.log(data);  
@@ -111,6 +118,7 @@ import {path} from '../common/variable.js'
                 this.$emit('childFormData','success');
                 return false;
             },
+            //选择表单上传图片
             xmTanUploadImg:function(obj) { 
                 obj = obj.target;
                 var fl=obj.files.length; 
@@ -129,7 +137,12 @@ import {path} from '../common/variable.js'
             }
         },
         mounted:function(){
-            this.tab = this.table;
+            if(this.table.table_sort == this.table.length){
+                this.nextShow = true;
+                if(('S'+this.table.starLevel) == this.star){
+                    this.status = 1;
+                }
+            }
             //获取表单数据
             this.$http.jsonp(path+'crm/getStarInfoRow.do', {
               jsonp: 'jsoncallback',
@@ -155,7 +168,6 @@ import {path} from '../common/variable.js'
                     }
                     this.imgSrc = imgSrc;
                 }
-                console.log(data);
             })
         }
 

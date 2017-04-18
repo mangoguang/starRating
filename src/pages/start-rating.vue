@@ -72,8 +72,11 @@ import HeadName from '@/components/HeadName.vue'
         }
       })
       .then(function(data) {
+        var status = data.body[0].STATUS;
+        if(status == 0){
           this.flownum = data.body[0].FLOWNUMBER;
-          //如果流水号不存在，则产生一个流水号
+        }else{
+          //如果流水号不存在（status=-1）或该流程已完成（status=1），则产生一个流水号
           if(this.flownum == ''){
               this.$http.jsonp(path+'crm/getFlowNumber.do', {
                 jsonp: 'jsoncallback'
@@ -82,6 +85,7 @@ import HeadName from '@/components/HeadName.vue'
                   this.flownum = data.body.flowNumber;
               })
           }
+        }
       })
     }
   }
