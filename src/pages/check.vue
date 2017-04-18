@@ -13,7 +13,11 @@
         </div>
 
         <div class="swiper-container">
-            <div class="swiper-scrollbar"></div>
+            <!--<div class="swiper-scrollbar"></div>-->
+
+            <div class="myHintB">
+                <div class="myHint" v-bind:style="{width: hintWidth}"></div>
+            </div>
 
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(title, index) in swiperSlides">
@@ -49,6 +53,7 @@
 </template>
 
 <script>
+    import Swiper from '@/common/swiper.js'
     import $ from 'n-zepto'
     import {path} from '../common/variable.js'
     import HeadLeft from '@/components/HeadLeft.vue'
@@ -60,6 +65,7 @@
 
     import CTitle from '@/components/CTitle.vue'
     import CHead from '@/components/CHead.vue'
+
 
     export default{
         name: 'check',
@@ -75,6 +81,7 @@
                 flownum: '',
                 model: '',
                 tableSort: '',
+                hintWidth: '',
                 swiperSlides: []
                 // rowStatus: []    //设置监控每个星级评星各行数据时候提交的数组。
             }
@@ -136,23 +143,45 @@
                 if(res.status == 200){
                     // console.log(res.body)
                     this.swiperSlides = res.body;
+                    this.hintWidth = this.swiperSlides[0].FZ+'%';
                 }else{
                     alert('请检查网络')
                 }
 
                 this.model = res.body[0].MODULE_ID;
             })
-
+            var that = this;
             var mySwiper = new Swiper('.swiper-container', {
                 observer: true,
                 autoHeight: true,
                 observeParents: true,
                 //autoplay: 1000,
                 setWrapperSize: true,
-                scrollbar: '.swiper-scrollbar',
-                scrollbarHide: false
+                //scrollbar: '.swiper-scrollbar',
+                //scrollbarHide: false,
                 //pagination : '.swiper-pagination',
                 //paginationClickable :true,
+                onSlideChangeStart: function(swiper){
+                    let nextIndex = swiper.activeIndex;
+                    let prveIndex = swiper.previousIndex;
+                    let NowWidth = that.hintWidth.substring(0,that.hintWidth.length-1);
+                    let midWidth;
+                    if(prveIndex < nextIndex){
+                        midWidth = parseInt(NowWidth) + parseInt(that.swiperSlides[nextIndex].FZ);
+                        if(midWidth>100){
+                            return false
+                        }else{
+                            that.hintWidth = midWidth +'%';
+                        }
+                    }else{
+                        midWidth = parseInt(NowWidth) - parseInt(that.swiperSlides[prveIndex].FZ);
+                        if(midWidth<0){
+                            return false
+                        }else{
+                            that.hintWidth = midWidth +'%';
+                        }
+                    }
+                }
             });
         }
     }
@@ -167,6 +196,25 @@
     .swiper-scrollbar{
         position: fixed;
     }
+    .myHintB{
+        position: fixed;
+        top: 1.33rem;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: #eee;
+        z-index: 500;
+        .myHint{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #ff7559;
+            z-index: 501;
+        }
+    }
+
+
     .header{
         position: fixed;
         top: 0;

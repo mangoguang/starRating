@@ -37,7 +37,7 @@ export default new Router({
     name: 'check',
     component: require('../pages/check')
   }, {
-    path: '/report',
+    path: '/report/:flownum/:city',
     name: 'report',
     component: require('../pages/report')
 

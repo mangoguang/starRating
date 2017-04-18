@@ -73,7 +73,7 @@ import {path} from '../common/variable.js'
                 var el = $('.on')
                 if(el.length == this.table.length){
                     if(this.status = 1){
-                        this.$router.push({ path: '/report'})
+                        this.$router.push({ path: '/report/'+this.flownum+'/'+this.city})
                     }
                 }else{
                     alert('您的数据没有提交完全，请将全部数据提交！')
@@ -231,6 +231,9 @@ import {path} from '../common/variable.js'
             font-size: @f34;
             line-height: 1.06667rem;
             border-radius: .1rem;
+        }
+        span:last-child{
+            margin-bottom: 1rem;
         }
         .imgBox{
             background: #fafafa;
