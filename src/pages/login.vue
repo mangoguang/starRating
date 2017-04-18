@@ -127,8 +127,14 @@
                             }else{
                                 alert('账户或者密码错误！');
                             }
-                        }else if(res.status == 0){
-                            alert('网络发生错误！');
+                        }
+                    }).catch(function(res){
+                        if(res.status == 200){
+                            alert('请检查网络');
+                        }else if(res.status == 404){
+                            alert('请求页面不存在');
+                        }else if(res.status == 500){
+                            alert('服务器发生异常');
                         }
                     })
                 }

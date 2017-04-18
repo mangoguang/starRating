@@ -24,10 +24,10 @@
                         <c-head>
                             <p><span>{{ title.KHXM1 }}</span> <i>({{ title.FZ }}分)</i></p>
                         </c-head>
-                        <p @click.self="dialogOpen(index)">规则</p>
+                        <p @click="dialogOpen(index)">规则</p>
 
-                        <div class="GZContain" v-show="swiperSlides[index].ISGZ">
-                            <span class="GZClose"></span>
+                        <div class="GZContain" :class="{'is-class': index === active}">
+                            <span class="GZClose" @click="dialogClose(index)"></span>
                             <ul>
                                 <li v-for="(value,index) in swiperSlides[index].JCBZ.split('；')">
                                      {{ value }}
@@ -50,6 +50,12 @@
 <style lang="less" scoped>
     @import "../assets/css/swiper.css";
     @import "../less/variable";
+    .is-class{
+        display: block !important;
+    }
+    .swiper-scrollbar{
+        position: fixed;
+    }
     .header{
         position: fixed;
         top: 0;
@@ -83,6 +89,7 @@
             border-radius: 0.1rem;
         }
         .GZContain{
+            display: none;
             position: absolute;
             top: 1.8rem;
             left: 0;
@@ -93,6 +100,16 @@
             text-align: left;
             z-index: 500;
             border-radius: 8px;
+            span{
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 0.35rem;
+                height: 0.35rem;
+                padding: 0.35rem;
+                background: url("../assets/8-clos.png")no-repeat center;
+            }
             ul{
                 li{
                     line-height: 0.5rem;
@@ -201,7 +218,9 @@
                 table_sort: '',
                 model: '',
                 tableSort: '1111',
-                swiperSlides: []
+                swiperSlides: [],
+                active: '',
+                noActive: ''
             }
         },
         mounted() {
@@ -243,10 +262,14 @@
                 if(res.status == 200){
                     console.log(res.body)
                     this.swiperSlides = res.body;
-
-                   console.log(this.swiperSlides);
-                }else{
-                    alert('请检查网络')
+                }
+            }).catch(function(res){
+                if(res.status == 200){
+                    alert('请检查网络');
+                }else if(res.status == 404){
+                    alert('请求页面不存在');
+                }else if(res.status == 500){
+                    alert('服务器发生异常');
                 }
             })
 
@@ -263,10 +286,11 @@
 
 
             var mySwiper = new Swiper('.swiper-container', {
-                observer:true,
-                observeParents:true,
+                observer: true,
+                autoHeight: true,
+                observeParents: true,
                 //autoplay: 1000,
-                setWrapperSize :true,
+                setWrapperSize: true,
                 scrollbar: '.swiper-scrollbar',
                 scrollbarHide: false
                 //pagination : '.swiper-pagination',
@@ -274,12 +298,21 @@
             });
 
         },
+        computed: {
+            isHide() {
+                return !this.active
+            }
+        },
         methods: {
             back() {
                 this.$router.back();
             },
             dialogOpen(index) {
-                this.swiperSlides[index].ISGZ = !this.swiperSlides[index].ISGZ;
+                this.active = index;
+                //this.swiperSlides[index].ISGZ = !this.swiperSlides[index].ISGZ;
+            },
+            dialogClose(index) {
+                this.active = !index;
             },
             formData:function(data){
                 console.log(data);

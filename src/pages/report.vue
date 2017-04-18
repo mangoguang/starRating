@@ -114,6 +114,8 @@
 <script>
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
+    import {path} from '@/common/variable.js'
+
     export default{
         name: 'report',
         components:{ HeadLeft, HeadName },
@@ -129,6 +131,9 @@
                     {name: '二星', value: '88'}
                 ]
             }
+        },
+        mounted: {
+
         },
         methods: {
             back() {
