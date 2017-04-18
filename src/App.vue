@@ -14,7 +14,7 @@ import {flexibleCss} from './common/properScreen_css.js'
 flexible();
 flexibleCss();
 
-import Swiper from '@/common/swiper.js'
+
 
 export default {
   name: 'app'
