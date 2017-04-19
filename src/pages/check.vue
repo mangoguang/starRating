@@ -43,7 +43,7 @@
                         <c-main1>
                             <p>{{ title.JSBZ }}</p>
                         </c-main1>
-                        <CMain2 v-bind:table="{'table_sort':swiperSlides[index].TABLE_SORT,'length':swiperSlides.length,'model':model,'starLevel':starLevel,'count':count}" @childFormData="formData"></CMain2>
+                        <CMain2 v-bind:table="{'table_sort':swiperSlides[index].TABLE_SORT,'length':swiperSlides.length,'model':model,'starLevel':starLevel,'count':count,'maxScore': title.FZ}" @childFormData="formData"></CMain2>
                     </div>
                 </div>
 

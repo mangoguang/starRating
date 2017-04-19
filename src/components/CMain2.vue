@@ -96,7 +96,7 @@ import {path} from '../common/variable.js'
             //提交表单
             formdata:function(){
                 if(this.textArea != ''){
-                    if(this.score != 0){
+                    if(parseInt(this.score) >=0 && parseInt(this.score)<=parseInt(this.table.maxScore) ){
                         this.haveSubmit = true;
                         var formData = new FormData($( "#imgForm" )[0]);
                         formData.append("flownumber", this.flownum);//流水号
@@ -132,7 +132,7 @@ import {path} from '../common/variable.js'
                           }  
                         });
                     }else{
-                        alert('请输入分数！')
+                        alert('请输入分数且分数必须大于0小于'+this.table.maxScore);
                     } 
                 }else{
                     alert('请输入检查结果！')
