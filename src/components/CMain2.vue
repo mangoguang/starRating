@@ -9,11 +9,11 @@
                 <li class="imgLi" v-for="src in imgSrc">
                     <img v-bind:src="src" alt="">
                 </li>
-                <li class="imgLi imgAdd" v-bind:style="{ heigth: 100 + 'px' }">
+                <li class="imgLi" v-bind:class="'imgLi'+table.table_sort" v-bind:style="{ heigth: 100 + 'px' }">
                     <label class="imgSelect" for="xdaTanFileImg"></label>
                 </li>
             </ul>  
-            <input type="file" id="xdaTanFileImg"  multiple="multiple"  name="head_url"  v-on:change="xmTanUploadImg"  style="display: none;"/> 
+            <input type="file" id="xdaTanFileImg"  multiple="multiple"  name="head_url"  v-on:change="xmTanUploadImg(index,$event,$el)"  style="display: none;"/> 
         </div>
 
         <div class="inputArea">
@@ -42,6 +42,7 @@ import {path} from '../common/variable.js'
                 width: window.innerWidth,
                 imgMsg:[],
                 imgSrc: [],
+                index: 0,
                 textArea: '',
                 text: '',
                 comments: '',
@@ -140,26 +141,37 @@ import {path} from '../common/variable.js'
                 return false;
             },
             //选择表单上传图片
-            xmTanUploadImg:function(obj) { 
-                obj = obj.target;
+            xmTanUploadImg:function(data,$event,$el) {
+                console.log(data);
+                var el = $el.getElementsByClassName("imgLi");
+// getElementById(id)
+                console.log(JSON.stringify(el));
+                console.log(data); 
+                var obj = $event.target;
                 var fl=obj.files.length; 
+                var imgSrc = this.imgSrc;
                 for(var i=0;i<fl;i++){  
                   var file=obj.files[i];  
                   var reader = new FileReader();   
                   reader.onload = function (e) {  
                     // console.log("成功读取....");  
                     var src = e.target.result;
-                    var str = '<li style="width: 15%;height: '+(window.innerWidth*0.135)+'px;float:left;margin-left: 1.33%;margin-top: .2rem;" class="imgLi"><img style="height:100%;width: 100%;" src="'+src+'" alt=""></li>';
-                    var add = $('.imgAdd');
-                    add[0].before(str);
-                    console.log(add);
+                    imgSrc.push(src);
+                    // var str = '<li style="width: 15%;height: '+(window.innerWidth*0.135)+'px;float:left;margin-left: 1.33%;margin-top: .2rem;" class="imgLi"><img style="height:100%;width: 100%;" src="'+src+'" alt=""></li>';
+                    // $('.imgLi'+data).before(str);
+                    // var el = $('.imgLi'+data);
+                    // el.before(str);
                     // $('.imgAdd:nth-child(1)').before(str);               
                   }
                   reader.readAsDataURL(file);   
                 } 
+                this.imgSrc = imgSrc;
+                console.log(this.imgSrc);
             }
         },
         mounted:function(){
+            this.index = this.table.table_sort;
+            console.log(this.index)
             // alert(this.table.table_sort);
             $('.imgLi').css('height','200px');
             if(this.table.table_sort == this.table.length){
