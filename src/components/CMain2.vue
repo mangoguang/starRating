@@ -2,7 +2,7 @@
     <div class="CMain2">
     <form id="imgForm" method="post" enctype="multipart/form-data">  
 
-        <textarea v-model="textArea" name="result" placeholder="检查结果..."></textarea>
+        <textarea v-model="textArea" placeholder="检查结果..."></textarea>
         
         <div class="imgBox clearfix">
             <ul class="img-box clearfix" id="imgboxid">  
@@ -17,11 +17,11 @@
         </div>
 
         <div class="inputArea">
-            <label>备注：</label><input name="comments" v-model="comments" typeof="text" placeholder="备注...">
+            <label>备注：</label><input v-model="comments" typeof="text" placeholder="备注...">
         </div> 
         <div class="scoreArea">
             <label>得分：</label>
-            <input name="score" v-model="score" type="number">
+            <input v-model="score" type="number">
         </div>
         <span class="formSubmit" v-bind:class="{'on':haveSubmit}" @click="formdata">提交</span>
         <span class="formSubmit" v-if="nextShow" @click="nextStar">下一评级</span>
@@ -98,15 +98,18 @@ import {path} from '../common/variable.js'
                     if(this.score != 0){
                         this.haveSubmit = true;
                         var formData = new FormData($( "#imgForm" )[0]);
-                        formData.append("flownumber", this.flownum);
-                        formData.append("star", 'S'+this.table.starLevel);
-                        formData.append("reverse1", this.city);
-                        formData.append("status", this.status);
-                        formData.append("table_sort", this.table.table_sort);
-                        formData.append("model", this.table.model);
-                        formData.append("store_id", this.id);
-                        formData.append("store_name", this.name );
-                        formData.append("emp_num", this.num);
+                        formData.append("flownumber", this.flownum);//流水号
+                        formData.append("result", this.textArea);//检查结果
+                        formData.append("comments", this.comments);//备注
+                        formData.append("score", this.score);//分数
+                        formData.append("star", 'S'+this.table.starLevel);//所处星级
+                        formData.append("reverse1", this.city);//城市等级
+                        formData.append("status", this.status);//状态
+                        formData.append("table_sort", this.table.table_sort);//行号
+                        formData.append("model", this.table.model);//模板
+                        formData.append("store_id", this.id);//店铺ID
+                        formData.append("store_name", this.name );//店铺名称
+                        formData.append("emp_num", this.num);//工号
                         $.ajax({  
                           url: path+'crm/updateImage.do' ,  
                           type: 'POST',  
