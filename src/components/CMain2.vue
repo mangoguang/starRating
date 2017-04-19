@@ -62,6 +62,9 @@ import {path} from '../common/variable.js'
             //如果参数改变，则刷新组件，触发组件重新渲染。
             '$route' () {
                 this.$router.go(0);
+            },
+            'imgSrc'(){
+                // alert('imgSrc的值改变了');
             }
         },
         updated:function(){
@@ -149,6 +152,7 @@ import {path} from '../common/variable.js'
                   reader.readAsDataURL(file);   
                 } 
                 this.imgSrc = imgSrc;
+                console.log(this.imgSrc);
             }
         },
         mounted:function(){
