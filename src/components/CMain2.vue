@@ -9,7 +9,7 @@
                 <li class="imgLi" v-for="src in imgSrc">
                     <img v-bind:src="src" alt="">
                 </li>
-                <li class="imgLi" v-bind:style="{ heigth: 100 + 'px' }">
+                <li class="imgLi imgAdd" v-bind:style="{ heigth: 100 + 'px' }">
                     <label class="imgSelect" for="xdaTanFileImg"></label>
                 </li>
             </ul>  
@@ -140,22 +140,24 @@ import {path} from '../common/variable.js'
             xmTanUploadImg:function(obj) { 
                 obj = obj.target;
                 var fl=obj.files.length; 
-                var imgSrc = this.imgSrc;
                 for(var i=0;i<fl;i++){  
                   var file=obj.files[i];  
                   var reader = new FileReader();   
                   reader.onload = function (e) {  
                     // console.log("成功读取....");  
                     var src = e.target.result;
-                    imgSrc.push(src);               
+                    var str = '<li style="width: 15%;height: '+(window.innerWidth*0.135)+'px;float:left;margin-left: 1.33%;margin-top: .2rem;" class="imgLi"><img style="height:100%;width: 100%;" src="'+src+'" alt=""></li>';
+                    var add = $('.imgAdd');
+                    add[0].before(str);
+                    console.log(add);
+                    // $('.imgAdd:nth-child(1)').before(str);               
                   }
                   reader.readAsDataURL(file);   
                 } 
-                this.imgSrc = imgSrc;
-                console.log(this.imgSrc);
             }
         },
         mounted:function(){
+            // alert(this.table.table_sort);
             $('.imgLi').css('height','200px');
             if(this.table.table_sort == this.table.length){
                 this.nextShow = true;
