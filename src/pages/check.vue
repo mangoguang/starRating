@@ -43,7 +43,7 @@
                         <c-main1>
                             <p>{{ title.JSBZ }}</p>
                         </c-main1>
-                        <CMain2 :table="{'table_sort':swiperSlides[index].TABLE_SORT,'length':swiperSlides.length,'model':model,'starLevel':starLevel}" @childFormData="formData"></CMain2>
+                        <CMain2 v-bind:table="{'table_sort':swiperSlides[index].TABLE_SORT,'length':swiperSlides.length,'model':model,'starLevel':starLevel,'count':count}" @childFormData="formData"></CMain2>
                     </div>
                 </div>
 
@@ -78,6 +78,7 @@
                 starTatal: 0,
                 active: '',
                 textArea: '',
+                count: 0,
                 flownum: '',
                 model: '',
                 tableSort: '',
@@ -162,6 +163,7 @@
                 //pagination : '.swiper-pagination',
                 //paginationClickable :true,
                 onSlideChangeStart: function(swiper){
+                    that.count = swiper.activeIndex;
                     let nextIndex = swiper.activeIndex;
                     let prveIndex = swiper.previousIndex;
                     let NowWidth = that.hintWidth.substring(0,that.hintWidth.length-1);
