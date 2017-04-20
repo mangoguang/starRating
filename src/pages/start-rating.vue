@@ -16,7 +16,7 @@
     </div>
 
     <ul class="stars clearfix">
-      <li v-for="(star,index) in stars">
+      <li class="starLis" v-for="(star,index) in stars">
         <div class="starList" @click="starSelect(index,stars)" v-bind:style="{'background-image': 'url(static/images/star'+(index+1)+'.png)'}"></div>
         <p>{{star}}</p>
       </li>
@@ -64,6 +64,10 @@ import HeadName from '@/components/HeadName.vue'
       }
     },
     mounted:function(){
+      $('.starLis').click(function(){
+        $(this).addClass('on');
+        $(this).siblings().removeClass('on');
+      })
       //获取流水号
       this.$http.jsonp(path+'crm/getFlowNum.do', {
         jsonp: 'jsoncallback',
@@ -142,19 +146,19 @@ ul.stars{
       background-repeat: no-repeat;
     }
   }
-  li:nth-child(1) div:hover{
+  li.on:nth-child(1) div{
     background-image: url(../assets/unstar1.png)!important;
   }
-  li:nth-child(2) div:hover{
+  li.on:nth-child(2) div{
     background-image: url(../assets/unstar2.png)!important;
   }
-  li:nth-child(3) div:hover{
+  li.on:nth-child(3) div{
     background-image: url(../assets/unstar3.png)!important;
   }
-  li:nth-child(4) div:hover{
+  li.on:nth-child(4) div{
     background-image: url(../assets/unstar4.png)!important;
   }
-  li:nth-child(5) div:hover{
+  li.on:nth-child(5) div{
     background-image: url(../assets/unstar5.png)!important;
   }
   li:nth-child(1) div,li:nth-child(2) div,li:nth-child(3) div{
@@ -168,8 +172,11 @@ ul.stars{
   li:nth-child(3){
     margin-right: 0;
   }
-  li:hover{
+  li.on{
     background: @fc;
+    p{
+      color: @subfc;
+    }
   }
 }
 li.startLi{
