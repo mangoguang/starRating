@@ -36,24 +36,25 @@
     </div>
 </template>
 <style lang="less" scoped>
-    [v-cloak]{
-        display: none;
-    }
-
     .report{
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         .imgBox{
             width: 100%;
-            height: 4rem;
+            height: auto;
+            padding: 0.35rem 0  ;
             background: #ffee58;
             img{
                 display: block;
-                padding: 0.7rem 0 0.3rem;
+                width: 100%;
+                height: auto;
                 vertical-align: middle;
             }
             p{
+                padding-top: 0.15rem;
                 font-weight: bold;
                 font-size: 0.43rem;
                 color: #333012;
