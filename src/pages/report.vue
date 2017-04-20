@@ -71,7 +71,7 @@
             .sTitle{
                 img{
                     display: inline-block;
-                    vertical-align: top;
+                    vertical-align: middle;
                 }
                 span{
                     display: inline-block;
