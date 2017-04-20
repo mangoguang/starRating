@@ -45,7 +45,7 @@
         .imgBox{
             width: 100%;
             height: auto;
-            padding: 0.35rem 0  ;
+            padding: 0.35rem 0;
             background: #ffee58;
             img{
                 display: block;
