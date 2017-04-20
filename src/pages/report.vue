@@ -15,14 +15,14 @@
         </div>
 
         <div class="content">
-            <h1 v-text="scores[0].STORE_NAME"></h1>
+            <h1 v-text="storeName"></h1>
             <div class="sTitle">
                 <img src="../assets/5-cituy.png">
-                <span v-text="scores[0].city_lvl"></span>
+                <span v-text="cityLevel"></span>
             </div>
             <ul>
                 <li v-cloak v-for="(score, index) in scores">
-                    <span>{{ score.star_lvl }}</span>： <i>{{ score.SCORE }}</i> 分
+                    <span>{{ score.star_lvl }}</span>： <i>{{ score.score }}</i> 分
                 </li>
             </ul>
         </div>
@@ -121,16 +121,24 @@
         components:{ HeadLeft, HeadName },
         data() {
             return {
-                scores: []
+                storeName: '',
+                cityLevel: '',
+                scores: [],
             }
         },
         mounted(){
+            var str = {
+                flownumber: this.$route.params.flownum,
+                reverse1: this.$route.params.city
+            }
             this.$http.jsonp( path+'crm/getTotalScore.do', {
                 jsonp: 'jsoncallback',
-                params: { flownumber:'123456', reverse1: 'C1'}
+                params: str
             }).then(function(res){
                 if(res.status==200){
                     this.scores = res.body;
+                    this.storeName = res.body[0].storename;
+                    this.cityLevel = res.body[0].city_lvl;
                 }
             }).catch(function(res){
                 if(res.status == 0){
