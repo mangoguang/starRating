@@ -16,7 +16,9 @@
         <div class="submit">
             <p @click="logIn">登 录</p>
         </div>
-
+        
+        <!-- 加载动画 -->
+        <loading v-if="loadShow"></loading>
     </div>
 </template>
 
@@ -82,11 +84,14 @@
 </style>
 <script>
     import {path} from '@/common/variable.js'
+    import loading from '@/components/load'
     export default{
+        components:{ loading },
         data() {
             return{
                 userNum: '',
-                userPass: ''
+                userPass: '',
+                loadShow: false
             }
         },
         watch: {
@@ -110,17 +115,19 @@
         },
         methods:{
             logIn() {
+                this.loadShow = true;
                 if( this.userNum !='' && this.userPass !='' ){
                     let str = {
                         username: this.userNum,
                         password: this.userPass
                     }
-                    this.$http.jsonp( path + 'crm/getVerifyUserInfo.do',
+                    this.$http.jsonp( path + '/crm/getVerifyUserInfo.do',
                         {
                             jsonp: 'jsoncallback',
                             params: str
                         }
                     ).then(function(res){
+                        this.loadShow = false;
                         if( res.status == 200 ){
                             if(JSON.parse(res.bodyText).status == 1){
                                  this.$router.push( {path: '/search'+'/'+this.userNum} );

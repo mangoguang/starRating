@@ -126,4 +126,6 @@ a:hover{text-decoration:none;}
     margin-top: -.24rem;
   }
 }
+
+/* ------加载动画结束------ */
 </style>

@@ -1,5 +1,6 @@
 <template lang="html">
     <div class="check">
+        <loading v-show="loadShow"></loading>
         <div class="header">
             <head-left>
                 <img src="../assets/2-back.png" @click="back">
@@ -65,11 +66,12 @@
 
     import CTitle from '@/components/CTitle.vue'
     import CHead from '@/components/CHead.vue'
+    import loading from '@/components/load'
 
 
     export default{
         name: 'check',
-        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg, CMain2 },
+        components:{ HeadLeft, HeadName, HeadRight, CTitle, CHead, CMain1, CImg, CMain2, loading },
         data() {
             return {
                 id: this.$route.params.id,
@@ -83,7 +85,8 @@
                 model: '',
                 tableSort: '',
                 hintWidth: '',
-                swiperSlides: []
+                swiperSlides: [],
+                loadShow: true
                 // rowStatus: []    //设置监控每个星级评星各行数据时候提交的数组。
             }
         },
@@ -135,12 +138,13 @@
                 moduleid: 'M'+firstN+this.starLevel
             }
 
-            this.$http.jsonp(path + 'crm/getModuleInfo.do',
+            this.$http.jsonp(path + '/crm/getModuleInfo.do',
                 {
                     jsonp: 'jsoncallback',
                     params: str
                 }
             ).then(function(res){
+                this.loadShow = false;
                 if(res.status == 200){
                     // console.log(res.body)
                     this.swiperSlides = res.body;

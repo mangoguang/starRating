@@ -1,5 +1,6 @@
 <template>
     <div class="report">
+        <loading v-show="loadShow"></loading>
         <div class="header">
             <head-left>
                 <img src="../assets/2-back.png" @click="back">
@@ -116,15 +117,16 @@
     import {path} from '@/common/variable.js'
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
-
+    import loading from '@/components/load'
     export default{
         name: 'report',
-        components:{ HeadLeft, HeadName },
+        components:{ HeadLeft, HeadName, loading },
         data() {
             return {
                 storeName: '',
                 cityLevel: '',
                 scores: [],
+                loadShow: true
             }
         },
         mounted(){
@@ -132,10 +134,11 @@
                 flownumber: this.$route.params.flownum,
                 reverse1: this.$route.params.city
             }
-            this.$http.jsonp( path+'crm/getTotalScore.do', {
+            this.$http.jsonp( path+'/crm/getTotalScore.do', {
                 jsonp: 'jsoncallback',
                 params: str
             }).then(function(res){
+                this.loadShow = false;
                 if(res.status==200){
                     this.scores = res.body;
                     this.storeName = res.body[0].storename;

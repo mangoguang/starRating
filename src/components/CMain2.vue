@@ -1,5 +1,6 @@
 <template lang="html">
     <div class="CMain2">
+    <loading v-show="loadShow"></loading>
     <form id="imgForm" method="post" enctype="multipart/form-data">  
 
         <textarea v-model="textArea" placeholder="检查结果..."></textarea>
@@ -34,9 +35,11 @@
 <script>
 import $ from 'n-zepto'
 import {path} from '../common/variable.js'
+import loading from '@/components/load'
     export default{
         name: 'CMain2',
         props: ['table'],
+        components: {loading},
         data(){
             return{
                 width: window.innerWidth,
@@ -55,7 +58,8 @@ import {path} from '../common/variable.js'
                 num: this.$route.params.num,
                 flownum: this.$route.params.flownum,
                 nextShow: false,
-                finish: false
+                finish: false,
+                loadShow: false
             }
         },
         watch:{
@@ -98,6 +102,7 @@ import {path} from '../common/variable.js'
                 if(this.textArea != ''){
                     if(parseInt(this.score) >=0 && parseInt(this.score)<=parseInt(this.table.maxScore) ){
                         this.haveSubmit = true;
+                        var _this = this;
                         var formData = new FormData($( "#imgForm" )[0]);
                         formData.append("flownumber", this.flownum);//流水号
                         formData.append("result", this.textArea);//检查结果
@@ -111,8 +116,9 @@ import {path} from '../common/variable.js'
                         formData.append("store_id", this.id);//店铺ID
                         formData.append("store_name", this.name );//店铺名称
                         formData.append("emp_num", this.num);//工号
-                        $.ajax({  
-                          url: path+'crm/updateImage.do' ,  
+                            $.ajax({  
+                          url: path+'/crm/updateImage.do' ,  
+                          // url: 'http://10.11.0.159/deruccimid/antifake/uploadfile',
                           type: 'POST',  
                           data: formData,  
                           async: false,  
@@ -128,9 +134,10 @@ import {path} from '../common/variable.js'
                               }
                           },  
                           error: function (data) {  
-                              console.log(data);  
+                              alert('你的网络有问题，请检查网络。')  
                           }  
                         });
+                        
                     }else{
                         alert('请输入分数且分数必须大于0小于'+this.table.maxScore);
                     } 
@@ -172,7 +179,7 @@ import {path} from '../common/variable.js'
                 }
             }
             //获取表单数据
-            this.$http.jsonp(path+'crm/getStarInfoRow.do', {
+            this.$http.jsonp(path+'/crm/getStarInfoRow.do', {
               jsonp: 'jsoncallback',
               params: {
                 flownumber: this.flownum,
@@ -193,7 +200,7 @@ import {path} from '../common/variable.js'
                     var imgs = data[0].IMGS;
                     var imgSrc = [];
                     for(var i=0;i<imgs.length;i++){
-                        imgSrc.push('http://10.11.0.206:8866/CrmApp'+imgs[i].ATT_PATH);
+                        imgSrc.push(path+imgs[i].ATT_PATH);
                     }
                     this.imgSrc = imgSrc;
                 }

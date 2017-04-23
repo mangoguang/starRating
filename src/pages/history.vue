@@ -1,6 +1,6 @@
 <template>
   <div class="search" v-bind:style="{'min-height': height+'px'}">
-
+    <loading v-show="loadShow"></loading>
     <div class="header">
         <head-left>
             <img src="../assets/2-back.png" @click="back">
@@ -137,15 +137,18 @@
 // import headerComponent from '../components/header-component'
     import HeadLeft from '@/components/HeadLeft.vue'
     import HeadName from '@/components/HeadName.vue'
+    import {path} from '../common/variable.js'
+    import loading from '@/components/load'
   export default{
     name: 'history',
-    components: { HeadLeft, HeadName },
+    components: { HeadLeft, HeadName, loading },
     data () {
       return {
         height: window.innerHeight,
-        unFinishStores: ['东莞市厚街镇3D专卖店东莞市厚街镇3D专卖店东莞市厚街镇3D专卖店','东莞市厚街镇v6专卖店'],
+        unFinishStores: ['东莞市厚街镇3D专卖店','东莞市厚街镇v6专卖店'],
         finishStores: [],
-        starSum: [5,5,4,4]
+        starSum: [5,5,4,4],
+        loadShow: true
       }
     },
     methods:{
@@ -155,7 +158,7 @@
       getHistory:function(){
         // this.$router.push({ path: '/rating' });
         // http://10.11.0.206:8866/CrmApp/crm/getVerifyUserInfo.do?username=11610129&password=123456
-        this.$http.jsonp('http://10.11.0.206:8866/CrmApp/crm2/getResultInfo.do', {
+        this.$http.jsonp(path+'/crm2/getResultInfo.do', {
         // this.$http.jsonp('http://10.12.0.101/deruccimid/scanapp/finishedhouse', {
           jsonp: 'jsoncallback',
           params: {
@@ -165,6 +168,7 @@
           }
         })
         .then(function(data) {
+          this.loadShow = false;
           var str = data.bodyText;
           var obj = eval('(' + str + ')');
           obj = obj[0].result;

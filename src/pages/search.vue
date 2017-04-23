@@ -1,5 +1,7 @@
 <template>
   <div class="search" v-bind:style="{'min-height': height+'px'}">
+    <loading v-show="loadShow"></loading>
+
     <div class="header">
         <head-left>
             <img src="../assets/2-back.png" @click="back">
@@ -43,9 +45,10 @@
     import HeadName from '@/components/HeadName.vue'
     import HeadRight from '@/components/HeadRight.vue'
     import {path} from '../common/variable.js'
+    import loading from '@/components/load'
   export default{
     name: 'search',
-    components: { HeadLeft, HeadName, HeadRight },
+    components: { HeadLeft, HeadName, HeadRight, loading },
     data () {
       return {
         height: window.innerHeight,
@@ -54,7 +57,8 @@
         resultList: [],
         starSum: [5,5,0,0],
         unMsg: false,
-        canGetData: true
+        canGetData: true,
+        loadShow: false
       }
     },
     watch:{
@@ -64,8 +68,9 @@
           this.unMsg = false;
         }else{
           if(this.canGetData){
+            this.loadShow = true;
             this.canGetData = false;
-            this.$http.jsonp(path+'crm2/getStoreInfo.do', {
+            this.$http.jsonp(path+'/crm2/getStoreInfo.do', {
               jsonp: 'jsoncallback',
               params: {
                 keyWord: val,
@@ -75,6 +80,7 @@
               }
             })
             .then(function(data) {
+              this.loadShow = false;
               if(data.status == 200){
                 this.canGetData = true;
                 data = eval('(' + data.bodyText + ')');

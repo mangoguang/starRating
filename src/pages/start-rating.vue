@@ -1,5 +1,7 @@
 <template>
   <div class="ratingStart">
+    <loading v-show="loadShow"></loading>
+
     <div class="header">
         <head-left>
             <img src="../assets/2-back.png" @click="back">
@@ -12,7 +14,7 @@
     <div class="storeMsgBox">
       <img src="../assets/5-pic.png">
       <h2>{{name}}</h2>
-      <span>三-六级城市</span>
+      <span>{{cityGrade}}</span>
     </div>
 
     <ul class="stars clearfix">
@@ -32,9 +34,10 @@ import Vue from 'vue'
 import vueResource from 'vue-resource'
 import HeadLeft from '@/components/HeadLeft.vue'
 import HeadName from '@/components/HeadName.vue'
+import loading from '@/components/load'
   export default{
     name: 'search',
-    components: { HeadLeft, HeadName },
+    components: { HeadLeft, HeadName, loading },
     data () {
       return {
         height: window.innerHeight,
@@ -42,9 +45,11 @@ import HeadName from '@/components/HeadName.vue'
         city: this.$route.params.city,
         id: this.$route.params.id,
         num: this.$route.params.num,
+        cityGrade: '',
         stars: ['一星','二星','三星','四星','五星'],
         star: 0,
-        flownum: ''
+        flownum: '',
+        loadShow: true
       }
     },
     methods:{
@@ -64,25 +69,32 @@ import HeadName from '@/components/HeadName.vue'
       }
     },
     mounted:function(){
+      if(this.city == 'C1'){
+        this.cityGrade = '特一二级城市';
+      }else{
+        this.cityGrade = '三-六级城市';
+      }
+
       $('.starLis').click(function(){
         $(this).addClass('on');
         $(this).siblings().removeClass('on');
       })
       //获取流水号
-      this.$http.jsonp(path+'crm/getFlowNum.do', {
+      this.$http.jsonp(path+'/crm/getFlowNum.do', {
         jsonp: 'jsoncallback',
         params: {
           store_id: this.id
         }
       })
       .then(function(data) {
+        this.loadShow = false;
         var status = data.body[0].STATUS;
         if(status == 0){
           this.flownum = data.body[0].FLOWNUMBER;
         }else{
           //如果流水号不存在（status=-1）或该流程已完成（status=1），则产生一个流水号
           if(this.flownum == ''){
-              this.$http.jsonp(path+'crm/getFlowNumber.do', {
+              this.$http.jsonp(path+'/crm/getFlowNumber.do', {
                 jsonp: 'jsoncallback'
               })
               .then(function(data) {
