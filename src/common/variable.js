@@ -1,4 +1,4 @@
-var path = 'http://10.12.0.101:9999/crmsysapp';
+var path = 'http://zs.derucci.net:8822/crmsysapp';
 
 export {
   path
