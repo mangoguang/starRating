@@ -134,7 +134,7 @@ import loading from '@/components/load'
                               }
                           },  
                           error: function (data) {  
-                              alert('你的网络有问题，请检查网络。')  
+                              alert('你的网络有问题，请检查网络！')  
                           }  
                         });
                         
